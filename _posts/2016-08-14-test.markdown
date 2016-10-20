@@ -1,8 +1,0 @@
----
-title: test
-layout: post
----
-
-#Test
-##This post
- This post is just a test
