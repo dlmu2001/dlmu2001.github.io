@@ -68,10 +68,15 @@ tomorrow.cyz@gmail.com
 
   3. Android6.0以上版本，同一个app，XWalkView和Android WebView不能共存
    在Android系统里面，每个App全局只有一个Asset目录，而Chromium内核初始化icu的时候（lazy-init，要调用icu的地方初始化icu），会将icudtl.dat目录拷贝到Asset目录下，两个chromium内核都要拷贝自己的icudtl.dat到asset目录下，就会发生冲突。
+
    这个问题要考虑到其他第三方包对android webview的使用，比如自己的app可能没有调用任何android.webkit的函数，但是引入了第三方包exampleSDK，该第三方包调用了CookieManager或者CookieSyncManager，就会带来共存问题。直接导致你的app在有些输入框界面crash（因为icu resource missing)。
+
    官方给的workaround是在android webview之前初始化XWalkView，是一个很差的解决方案。首先，第三方SDK大部分在Application初始化的时候就调用，而XWalkView的初始化要一个Activity参数，导致需要将第三方SDK的初始化放到第一个Activity的onCreate里面运行，然后实例化一个可能没有用的XWalkView。另外，这样的解决方案其实破坏了Android WebView，如果其他第三方SDK在之后内部调用到Android WebView且有同ICU相关页面，那么crash的概率很大。
+
    更好的解决方案是自己编译内核，将XWalkView的icudtl.dat重命名。
+
    相应的bug可以参考[xwalk-7004](https://crosswalk-project.org/jira/browse/XWALK-7004)。
+
    对ICU没有概念的看下[Chromium ICU库定制裁剪](http://blog.gclxry.com/custom-chromium-icu-library/)   
 
 tomorrow.cyz@gmail.com
