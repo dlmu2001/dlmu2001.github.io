@@ -24,12 +24,13 @@ fullview: true
    
    另外，android版本兼容，对自主内核来说，也是一个蛮大的挑战。相比之下，CrossWalk因为其广泛的测试和应用，兼容性势必要好很多。
 
+
+# 如何使用XWalk Embed
+  测试
+
 # 如何使用XWalk Embed
 
     [XWalkView的Class Overview](https://crosswalk-project.org/apis/embeddingapidocs/reference/org/xwalk/core/XWalkView.html) 有一个例子非常好地展示了XWalk Embed的使用。
-
-# 如何使用XWalk Embed
-
     Crosswalk的API和Android WebView并没有一一对应的关系，官方也明确声明，出于兼容性和性能的考虑，并不完全兼容WebView的API。但是，大部分Android WebView的接口，在XWalk都能找到。比如，XWalkView类对应于WebView类，XWalkSettings对应于WebSettings,XWalkNavigationHistory对应于WebBackHistory，XWalkCookieManager对应于CookieManager。CookieSyncManager本身在Android API21已经Deprecated，所以没有对应的XWalk类。
     对应于WebView的Callback WebViewClient和WebChromeClient，XWalk提供了XWalkResourceClient和XWalkUIClient类。大部分接口都可以对应得上。需要注意的是，XWalkResourceClient里面，onLoadFinished对应的是整个页面级别的Finish，而不是单个Resource的Finish，而onLoadStarted则对应的是单个resource的Finish。对应于单个页面的start的接口是XWalkUIClient::onPageLoadStarted。
     XWalk没有对应的onGeolocationPermissionsShowPrompt接口。
