@@ -34,8 +34,9 @@ Chromium代码常见调试手段如下
         * 还有LOG_IF提供额外判断条件
         
   - 打印调用堆栈
+
            #include "base/debug/stack_trace.h"
-                base::debug::StackTrace(); 
+           base::debug::StackTrace(); 
                            
   - 调用跟踪
     * 通过TraceEvent.setATraceEnabled来控制调用跟踪是否打开
@@ -59,8 +60,9 @@ Chromium代码常见调试手段如下
    - log打印:__android_log_print
   
    - 打印调用堆栈
- 	#include &lt;utils/CallStack.h&gt;
- 	CallStack stack;
+ 	
+        #include &lt;utils/CallStack.h&gt;
+ 	    CallStack stack;
         stack.update();
         stack.dump();    
 
