@@ -34,6 +34,8 @@ Android Layout有LinearLayout,RelativeLayout,FrameLayout,AbsoluteLayout,TableLay
 
   * 比如仅需结合layout_alignParentTop layout_below layout_toLeftOf等，可以布局出各种行列结合
     的复杂布局。
+    
+>>![RelativeLayout布局](https://developer.android.com/images/ui/sample-relativelayout.png  "RelativeLayout布局")
 
   * 主要属性
     - 相对于父元素
