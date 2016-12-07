@@ -3,6 +3,7 @@ layout: post
 title: Android上使用Crosswalk，实现app内核定制 
 categories: [Android]
 tags: [Chromium]
+description: 描述通过使用CrossWalk实现App上内核的定制开发，CrossWalk的使用注意事项
 ---
 
 tomorrow.cyz@gmail.com
