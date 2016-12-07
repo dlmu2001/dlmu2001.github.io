@@ -61,10 +61,13 @@ Chromium代码常见调试手段如下
   
    - 打印调用堆栈
  	
-        #include &lt;utils/CallStack.h&gt;
- 	    CallStack stack;
-        stack.update();
-        stack.dump();    
+            #include &lt;utils/CallStack.h&gt;
+
+ 	        CallStack stack;
+
+            stack.update();
+
+            stack.dump();    
 
 ## breakpad分析crash堆栈
  - 在src目录下执行命令:ninja -C out/Release microdump_stackwalk生成microdump_stackwalk
