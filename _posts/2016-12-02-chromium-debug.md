@@ -1,6 +1,6 @@
 ---
 layout: post
-title: chromium的bug手段
+title: chromium的debug手段
 categories: [chromium]
 tags: [debug]
 description: chromium的主要调试手段，包括Java和native code，比如打log，打印堆栈，gdb调试，breadkpad等 
