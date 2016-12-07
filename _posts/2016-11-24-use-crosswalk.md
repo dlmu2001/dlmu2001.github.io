@@ -3,7 +3,6 @@ layout: post
 title: Android上使用Crosswalk，实现app内核定制 
 categories: [Android]
 tags: [Chromium]
-fullview: true
 ---
 
 tomorrow.cyz@gmail.com

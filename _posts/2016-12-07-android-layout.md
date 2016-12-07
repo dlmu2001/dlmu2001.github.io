@@ -3,7 +3,7 @@ layout: post
 title: Android上的布局选择 
 categories: [Android]
 tags: [布局]
-fullview: true
+description: Android常见的布局方式的使用
 ---
 
 tomorrow.cyz@gmail.com
