@@ -48,7 +48,7 @@ Chromium代码常见调试手段如下
        * device端
            - 如果没有gdbserver，拷贝进去
                 * gdbserver :6000 --attach PID     
-                * PID是要调试的进程，可以通过ps|grep获取
+                * PID是要调试的进程，可以通过ps&#166;grep获取
         * host端
                 * adb forward tcp:6000 tcp:6000
                 * arm-linux-androideabi-gdb
