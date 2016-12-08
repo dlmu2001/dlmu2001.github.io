@@ -50,8 +50,8 @@ Chromium代码常见调试手段如下
                 * gdbserver :6000 --attach PID     
                 * PID是要调试的进程，可以通过ps&#166;grep获取
         * host端
-                * adb forward tcp:6000 tcp:6000
-                * arm-linux-androideabi-gdb
+            - adb forward tcp:6000 tcp:6000
+            - arm-linux-androideabi-gdb
                 * target remote :6000
                 * set solib-search-path $SOPATH
                 *  SOPATH是带符号的so所在的路径
