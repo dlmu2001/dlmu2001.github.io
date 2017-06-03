@@ -179,4 +179,108 @@ tomorrow.cyz@gmail.com
 
 * 缺点:Dalvik平台，对启动耗时有一定影响。Art平台性能没有影响，但是如果修改类涉及到修改类变量或者方法(static)，可能会导致内存地址错乱问题，需要将修改了变量、方法以及接口的类的父类以及调用这个类的所有类都加入到补丁包中。这可能会带来补丁包大小的急剧增加。不支持即时生效。
 
+# 3. AndFix热修复框架
 
+## 3.1 原理
+* 从1.4的图可以看出，类的方法在Method Area，一个类只会有一个，会有一个指针地址
+
+* AndFix的原理就是方法的替换，用native方法把有bug的方法替换成补丁文件中的方法,相当于进行了native hook
+        
+        //java方法
+        void replaceMethod(ClassLoader classLoader, String clz,
+            String bugMethodName, Method method)
+        //jni方法,每个版本需要一个jni方法
+        void replace_5_0(JNIEnv* env, jobject src, jobject dest);
+
+* 方法替换过程
+
+![](/assets/media/andfix.png)
+   
+   图８　AndFix方法替换过程
+
+* AndFix补丁包和原包的关系
+
+![](/assets/media/andfix2.png)
+   
+   图9　AndFix补丁包
+
+* AndFix方案开发流程
+
+![](/assets/media/andfix3.png)
+   
+   图10　AndFix开发流程
+
+## 4.2 方案分析
+
+* 优点:即时生效，不需要重启应用。补丁较小
+
+* 缺点:兼容性问题不佳；开发不透明；应用场景受限(比如由于它并没有整体替换class, 而field在class中的相对地址在class加载时已确定，所以AndFix无法支持新增或者删除filed的情况）。
+
+* AndFix也就是现在的阿里百川HotFix，定位于紧急bug修复。手机淘宝因为在插件化上做了很多尝试(Atlas)，同时正在热推weex，对热修复场景的需求反而不那么强。因为多个dex，所以手淘不太适合使用QQ空间或者微信tinker的方案。
+
+* 手淘已经解决了兼容的问题，称为Sophfix，但是没有开源,方案还绑定后台
+
+# 5. 微信热更新Tinker
+
+## 5.1 方案原理
+* 全量更新Dex
+* 通过反射操作得到PathClassLoader的DexPatchList,反射调用patchlist的makeDexElements()方法把本地的dex文件直接替换到Element[]数组中去，达到修复的目的（图12)
+* 补丁包为差分包
+* 简单来说，在编译时通过新旧两个Dex生成差异path.dex。在运行时，将差异patch.dex重新跟原始安装包的旧Dex还原为新的Dex。还原过程可能比较耗费时间与内存，单独放在一个后台进程:patch中
+* 为了补丁包尽量的小，微信自研了DexDiff算法，它深度利用Dex的格式来减少差异的大小
+* 生成patch的过程由Gradle脚本完成，对开发透明
+
+![](/assets/media/tinker.png)
+   
+   图11 Tinker全量更新　
+
+![](/assets/media/tinker2.png)
+   
+   图12 Tinker原理　
+
+![](/assets/media/tinker3.png)
+   
+   图13 Tinker流程图　
+
+* so的更新思路类似class，ClassLoader的DexPathList有so的查找逻辑，将补丁包的so路径插入到so查找路径的最前面。麻烦在于这里Android各个版本不一致，需要做版本兼容，而且要考虑这个so是否已经加载过,ＡBI的选择也是个问题。
+
+![](/assets/media/hotfix_so.png)
+   
+   图14 so查找逻辑　
+
+![](/assets/media/hotfix_so2.png)
+   
+   图15 系统load so流程　
+
+* 资源的更新：资源的更新略复杂，通过调用addAssetPath将patch的资源加到新建的AssetManager对象中，然后将内存中所有Resources对象中的AssetManager对象替换为新建的AssetManager对象，具体可以参考[Android 热修复方案Tinker(四) 资源补丁加载](http://blog.csdn.net/l2show/article/details/53454933)
+
+## 5.2 方案分析
+* 优点：应用场景非常广泛；兼容性和稳定性比较高;
+* 缺点：占用磁盘空间(大约是你修改Dex数量的1.5倍(dexopt与dex压缩成jar)的大小);一个额外的合成过程；不支持即时生效;Do not support some Samsung models with os version android-21
+
+# 6.补丁方案比较
+* 由于ＱＱ空间没有开源，这里使用了和qq空间思路一样的nuwa，可以认为是qq空间的方案
+
+![](/assets/media/hotfix_compare.png)
+
+   图16 各补丁方案比较
+
+# 7.其它
+* 补丁生效时机
+* 补丁分发
+* 补丁下载
+* 补丁监控
+
+
+## 参考
+1. [Internals of Java Class Loading](http://www.onjava.com/pub/a/onjava/2005/01/26/classloading.html?page=1)
+
+2. [Java Virtual Machine Specification](http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-5.html)
+
+3. [安卓App热补丁动态修复技术介绍](https://mp.weixin.qq.com/s?__biz=MzI1MTA1MzM2Nw==&mid=400118620&idx=1&sn=b4fdd5055731290eef12ad0d17f39d4a)
+
+4. [Inside Class Loaders](http://www.onjava.com/pub/a/onjava/2003/11/12/classloader.html)
+
+5. [java虚拟机工作原理详解](http://www.cnblogs.com/miss510/p/4975805.html)
+
+6. [Android Apk打包过程概述](http://blog.csdn.net/jason0539/article/details/44917745)
