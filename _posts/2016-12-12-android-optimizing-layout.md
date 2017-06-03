@@ -166,7 +166,10 @@ tomorrow.cyz@gmail.com
             ImageView
          
       这一点Android Lint会有提示
-  
+ 
+  * 图片需要点击事件响应的时候，如果把外层的LinearLayout优化掉，要加大padding，以
+　　增加点击响应范围，避免点击效果下降
+ 
   * 建议深刻理解RelativeLayout布局
 
 参考
