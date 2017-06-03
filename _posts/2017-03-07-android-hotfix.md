@@ -56,11 +56,10 @@ tomorrow.cyz@gmail.com
     图1 Java运行时数据区
 
 ## 1.5 Java中的ClassLoader层级以及加载机制
-<p align="center">
 ![](/assets/media/classloader_hierarchy.gif) 
+   
+   图2 Java中的ClassLoader层次结构
 
-图2 Java中的ClassLoader层次结构
-</p>
 * 1.5.1 层次结构
   - Bootstrap Class Loader:当运行java虚拟机时，这个类加载器被创建，它加载一些基本的java API，包括Object这个类。这个类加载器不是用java语言写的，而是用C/C++写的。
   - Extension Class Loader:加载JAVA_HOME/lib/ext目录下的或-Djava.ext.dirs指定目录下的jar包
@@ -101,5 +100,83 @@ tomorrow.cyz@gmail.com
                 return Class.classForName(name, false, null);
             }
 　    
+
+
+## 1.6 Android APK打包过程
+
+![](/assets/media/apk.png) 
+
+  图3 apk打包过程 
+
+## 1.7 Android平台的ClassLoader
+
+* 如1.6图３所示，Android平台打包.class的时候，生成的不是.jar，而是.dex，它是Android平台的一个优化，Android dx程序会对所有.class进行优化合并，不同.class重复的东西只要保留一份.
+
+* 如果应用不进行分包处理，也没有动态加载，一个APK只会有一个dex文件
+
+* Android中类加载器有BootClassLoader,URLClassLoader, PathClassLoader,DexClassLoader,BaseDexClassLoader,等都最终继承自java.lang.ClassLoader
+  
+  - BootClassLoader:是Android平台上所有ClassLoader的最终parent,这个内部类是包内可见,开发者一般没法使用
+  - BaseDexClassLoader:基于Dex的ClassLoader实现，PathClassLoader和DexClassLoader的实现。这个类比较重要，后面再展开。
+  - PathClassLoader:Android系统和应用的class loader
+  - DexClassLoader：DexClassLoader支持加载APK、DEX和JAR，也可以从SD卡进行加载。他会将APK,JAR处理成DEX交给虚拟机。通常我们自己定制ClassLoader都继承自这个类。
+
+![](/assets/media/android_classloader.png) 
+
+   图4 android平台的class loader
+
+## 1.8 BaseDexLoader
+* 构造函数参数dexPath，传入dex列表，根据这个列表，load每个dex,形成一个DexFile和dex名字一一对应的Element列表DexPathList
+* 一个BaseDexClassLoader可以包含多个dex文件，每个dex文件是一个Element，多个dex文件排列成一个有序的数组dexElements，当找类的时候，会按顺序遍历dex文件，然后从当前遍历的dex文件中找类，如果找类则返回，如果找不到从下一个dex文件继续查找。
+* 如果在不同的dex中有相同的类存在，那么会优先选择排在前面的dex文件的类
+* DexFile::loadClassBinaryName最终会调用native函数
+
+![](/assets/media/basedexclassloader1.png)
+
+   图5 BaseDexClassLoader类
+
+ 
+![](/assets/media/BaseDexClassLoader2.png)
+   
+   图6 DexPathList的findClass实现
+
+## 1.9 dalvik 和Art
+* dalvik和Art都是Java Runtime
+* Android 5.0后,Art取代了Dalvik，ART能够把应用程序的字节码转换为机器码，是Android所使用 的一种新的虚拟机。它与Dalvik的主要不同在于：Dalvik采用的是JIT技术，字节码都需要通过即时编译器（just in time ，JIT）转换为机器码，这会拖慢应用的运行效率，而ART采用Ahead-of-time（AOT）技术，应用在第一次安装的时候，字节码就会预先编译成机器码，这个过程叫做预编译。ART同时也改善了性能、垃圾回收（Garbage Collection）、应用程序除错以及性能分析。但是，运行时内存占用空间较少同样意味着编译二进制需要更高的存储。
+* ART模式相比原来的Dalvik，会在安装APK的时候，使用Android系统自带的dex2oat工具把APK里面的.dex文件转化成OAT文件，OAT文件是一种Android私有ELF文件格式，它不仅包含有从DEX文件翻译而来的本地机器指令，还包含有原来的DEX文件内容。
+
+# 2.0 QQ空间热补丁修复
+
+## 2.1 基本思路
+
+* 原理主要来自1.8所述，灵感来源于Android Dex分包方案
+* 将要修复的类打包成一个patch.dex， 假设原来的ａｐｋ包含的classes.dex。
+* 通过获取到当前应用的Classloader(即为BaseDexClassloade),反射得到ClassLoader的dexPathList，反射调用pathList的dexElements方法把patch.dex转化为Element[],插入到原来的dexPathList的最前面，这样子patch.dex的类会以最高优先级加载。
+
+![](/assets/media/qzone.png)
+   
+   图7 QQ空间热修复基本原理 
+
+## 2.2 插桩
+
+### 2.2.1 问题
+* 假定ModuleManager在patch.dex，而QzoneActivityManager在原来的classes.dex，如果ModuleManager调用QzoneActivityManager，会出错。出错的原因是在解析类的时候，会校验饮用者和被引用者的dex是否相同。这个校验无法通过。
+
+* ＱＱ空间团队观察到,拆分Dex(MulDex)的实现不会进行这种校验，原因是拆分Dex里面，类没有被打上CLASSISPREVERIFIED标志。如果引用者(ModuleManager)被打上CLASSISPREVERIFIED标志，就会进行校验。
+
+
+* 如果static方法，构造函数，private方法中直接引用到的类（第一层级关系，不会进行递归搜索）和clazz都在同一个dex中的话，那么这个类就会被打上CLASS_ISPREVERIFIED标志。因此，如果在构造函数中引用到其它dex的类，这个类不会被打上标志。
+
+### 2.2.2解决
+* 往所有类的构造函数插入一段代码，调用System.out.println(AntiLazyLoad.class);去调用来自另外一个dex的类AntiLazyLoad
+
+* AntiLazyLoad单独打包成一个hack.dex
+
+* 往所有类的构造函数插入代码的工作由Gradle插件完成
+
+### 2.3 方案分析
+* 优点：开发透明，简单，应用补丁成功率高;支持资源替换
+
+* 缺点:Dalvik平台，对启动耗时有一定影响。Art平台性能没有影响，但是如果修改类涉及到修改类变量或者方法(static)，可能会导致内存地址错乱问题，需要将修改了变量、方法以及接口的类的父类以及调用这个类的所有类都加入到补丁包中。这可能会带来补丁包大小的急剧增加。不支持即时生效。
 
 
