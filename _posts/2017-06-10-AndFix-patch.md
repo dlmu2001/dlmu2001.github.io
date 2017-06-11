@@ -19,6 +19,7 @@ tomorrow.cyz@gmail.com
 
 aar在https://github.com/dlmu2001/AndFix/tree/master/outputs这里，用这个aar替换alibaba AndFix的aar就可以。
 
+如果你想要的也仅仅是解决AndFix的兼容性问题，而不是切换到Sophix，这个patch一定是你想要的。
 
 
 
