@@ -150,3 +150,4 @@ API的文档里面应该功能说明，参数说明，调用URL,调用实例，�
 
 ### 1. [RESTful API设计指南](http://www.ruanyifeng.com/blog/2014/05/restful_api.html)
 
+### 2.[IOS RSA的网络安全模型、IOS签名机制总结](http://www.cnblogs.com/jordanYang/p/5595416.html)
