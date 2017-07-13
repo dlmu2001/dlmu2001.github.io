@@ -29,6 +29,7 @@ ABI:application binary interface。应用程序二进制接口，在Android上�
 * 对性能有要求的地方,比如游戏或者物理仿真
 
 # 3. HelloWorld
+* https://github.com/dlmu2001/JniExample.git
 
 * native部分代码         
         
