@@ -21,11 +21,38 @@ tomorrow.cyz@gmail.com
 
 鉴于学习成本，以及各种框架的局限性，反而是最简单的hybrid开发模式应用最广泛。这种开发模式以WebView/UIWebView/WKWebView为桥梁，将H5和Native联系起来。通过设计通信机制，让H5和Native可以互相调用。
 
+# 2.native调用javascript的方法
+
+## 2.1 Android
+Android在sdk>19以上的版本提供了evaluateJavascript接口
+        
+        /**
+         * Asynchronously evaluates JavaScript in the context of the currently displayed page.
+         * If non-null, |resultCallback| will be invoked with any result returned from that
+         * execution. This method must be called on the UI thread and the callback will
+         * be made on the UI thread.
+         *
+         * @param script the JavaScript to execute.
+         * @param resultCallback A callback to be invoked when the script execution
+         *                       completes with the result of the execution (if any).
+         *                       May be null if no notificaion of the result is required.
+         */
+        public void evaluateJavascript(String script, ValueCallback<String> resultCallback) {
+            checkThread();
+            if (DebugFlags.TRACE_API) Log.d(LOGTAG, "evaluateJavascript=" + script);
+            mProvider.evaluateJavaScript(script, resultCallback);
+        }
+
+
+# 3.Javascript调用native的方法
+
 # hybrid开发的一些常见问题
 
 ## 反劫持
 
 ## 转菊花
+
+## 多次重定向后退
 
 # 参考
 * 1.[QQ空间面向移动时代Hybrid架构设计](http://www.infoq.com/cn/articles/hybrid-app-development-combat)
