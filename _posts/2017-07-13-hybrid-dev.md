@@ -83,7 +83,27 @@ tomorrow.cyz@gmail.com
             return false;
         }
 
-# hybrid开发的一些常见问题
+* JavaScriptInterface
+        
+        //Android
+        class JSInterface {  
+            @JavascriptInterface //注意这个代码一定要加上
+            public String getUserData() {
+                return "UserData";
+            }
+        }
+        webView.addJavascriptInterface(new JSInterface(), "AndroidJS");
+        
+        //javascript
+        alert(AndroidJS.getUserData()) //UserDate 
+        
+这种方法在api 17以下存在安全性问题，可以利用javascript代码调用java的反射api，攻击或者操纵设备。
+        
+        This method can be used to allow JavaScript to control the host application. This is a powerful feature, but also presents a security risk for applications targeted to API level JELLY_BEAN or below, because JavaScript could use reflection to access an injected object's public fields. Use of this method in a WebView containing untrusted content could allow an attacker to manipulate the host application in unintended ways, executing Java code with the permissions of the host application. Use extreme care when using this method in a WebView which could contain untrusted content.
+JavaScript interacts with Java object on a private, background thread of this WebView. Care is therefore required to maintain thread safety.
+The Java object's fields are not accessible.
+
+# 5 hybrid开发的一些常见问题
 
 ## 反劫持
 
@@ -99,5 +119,7 @@ tomorrow.cyz@gmail.com
 * 3.[Android Hybrid App通信](http://www.jianshu.com/p/1cf25c712040)
 
 * 4.[Hybrid APP基础篇(五)->JSBridge实现示例](http://www.cnblogs.com/dailc/p/5931328.html)
+
+* 5.[Hybrid APP架构设计思路](http://segmentfault.com/a/1190000004263182)
 
 
