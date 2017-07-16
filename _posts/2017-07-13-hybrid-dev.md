@@ -48,6 +48,16 @@ tomorrow.cyz@gmail.com
         void loadUrl (String url)
 
 这个接口没有返回值，得自己设计机制，来传回返回值
+
+## 2.2 IOS
+* UIWebView的stringByEvaluatingJavaScript方法
+         
+        func stringByEvaluatingJavaScript(from: String)
+这个方法没有返回值
+* WKWebView的evaluateJavaScript方法
+        
+        func evaluateJavaScript(String, completionHandler: ((Any?, Error?) -> Void)? = nil)
+这个方法有callback，但是WKWebView目前还有很多限制，不能单纯从是否有返回值来决定使用UIWebView还是WKWebView
 # 3.Javascript调用native的方法
 
 # hybrid开发的一些常见问题
