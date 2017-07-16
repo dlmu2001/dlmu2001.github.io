@@ -57,8 +57,31 @@ tomorrow.cyz@gmail.com
 * WKWebView的evaluateJavaScript方法
         
         func evaluateJavaScript(String, completionHandler: ((Any?, Error?) -> Void)? = nil)
+
 这个方法有callback，但是WKWebView目前还有很多限制，不能单纯从是否有返回值来决定使用UIWebView还是WKWebView
+
 # 3.Javascript调用native的方法
+
+## 3.1 Android
+* 通过schema的方式，javascript使用iframe发起链接，webview通过shouldOverrideUrl进行拦截
+        
+        //javascript
+        var ifm = document.createElement('iframe');
+        ifm.src = 'jsbridge://namespace.method?[...args]';
+        document.body.appendChild(iframe);
+        setTimeout(function(){
+            ifm.remove();
+        },100);
+
+        //Android
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            String scheme = Uri.parse(url).getScheme();//还需要判断host
+            if (TextUtils.equals("jsbridge", scheme)) {
+                ...
+                return true;
+            }
+            return false;
+        }
 
 # hybrid开发的一些常见问题
 
