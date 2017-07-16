@@ -103,6 +103,8 @@ tomorrow.cyz@gmail.com
 JavaScript interacts with Java object on a private, background thread of this WebView. Care is therefore required to maintain thread safety.
 The Java object's fields are not accessible.
 
+在api 17及以上的版本，可以通过@JavascriptInterface注解解决安全漏洞问题。
+
 # 5 hybrid开发的一些常见问题
 
 ## 反劫持
