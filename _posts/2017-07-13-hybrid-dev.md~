@@ -47,7 +47,6 @@ tomorrow.cyz@gmail.com
         
         void loadUrl (String url)
 
-这个接口没有返回值，得自己设计机制，来传回返回值
 # 3.Javascript调用native的方法
 
 # hybrid开发的一些常见问题
