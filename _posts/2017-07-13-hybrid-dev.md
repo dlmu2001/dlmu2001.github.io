@@ -97,13 +97,34 @@ tomorrow.cyz@gmail.com
         //javascript
         alert(AndroidJS.getUserData()) //UserDate 
         
-这种方法在api 17以下存在安全性问题，可以利用javascript代码调用java的反射api，攻击或者操纵设备。
+&emsp;&emsp;这种方法在api 17以下存在安全性问题，可以利用javascript代码调用java的反射api，攻击或者操纵设备。
         
         This method can be used to allow JavaScript to control the host application. This is a powerful feature, but also presents a security risk for applications targeted to API level JELLY_BEAN or below, because JavaScript could use reflection to access an injected object's public fields. Use of this method in a WebView containing untrusted content could allow an attacker to manipulate the host application in unintended ways, executing Java code with the permissions of the host application. Use extreme care when using this method in a WebView which could contain untrusted content.
 JavaScript interacts with Java object on a private, background thread of this WebView. Care is therefore required to maintain thread safety.
 The Java object's fields are not accessible.
 
-在api 17及以上的版本，可以通过@JavascriptInterface注解解决安全漏洞问题。
+&emsp;&emsp;在api 17及以上的版本，可以通过@JavascriptInterface注解解决安全漏洞问题。
+
+* window.prompt
+&emsp;&emsp;javascript中调用window.prompt(message,value)，用调用的接口通过message参数传递过来。
+
+&emsp;&emsp;Android中重载WebChromeClient的onJsPrompt
+        
+        public class JSBridgeWebChromeClient extends WebChromeClient {
+           @Override
+           public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
+               result.confirm(JSBridge.callJava(view, message));
+               return true;
+          }
+        }
+
+## 3.2 IOS
+&emsp;&emsp;通过schema的方式，javascript利用iframe发起链接，UIWebview通过delegate拦截
+        
+        BOOL webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request 
+         navigationType:(UIWebViewNavigationType)navigationType
+
+
 
 # 5 hybrid开发的一些常见问题
 
