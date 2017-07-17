@@ -106,9 +106,10 @@ The Java object's fields are not accessible.
 &emsp;&emsp;在api 17及以上的版本，可以通过@JavascriptInterface注解解决安全漏洞问题。
 
 * window.prompt
-&emsp;&emsp;javascript中调用window.prompt(message,value)，用调用的接口通过message参数传递过来。
 
-&emsp;&emsp;Android中重载WebChromeClient的onJsPrompt
+javascript中调用window.prompt(message,value)，用调用的接口通过message参数传递过来。
+
+Android中重载WebChromeClient的onJsPrompt
         
         public class JSBridgeWebChromeClient extends WebChromeClient {
            @Override
