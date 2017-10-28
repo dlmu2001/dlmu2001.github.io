@@ -42,6 +42,8 @@ facebook/google/instam等第三方登录API。有些场景则要求高安全性�
 
 时间打磨。
 
+# 3.迭代架构
+
 # 4.开发模式
 
 # 5.mvp/mvvm
