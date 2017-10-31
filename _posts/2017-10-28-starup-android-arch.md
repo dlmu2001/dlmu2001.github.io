@@ -173,7 +173,7 @@ push要打开一个本地的页面，此时就传这个页面的url，搭配对�
 
     ** [YoKeyword/Fragmentation](https://github.com/YoKeyword/Fragmentation),fragment有很多坑，不想花时间，用这个很合适。
 
-    ** RxJava,这个地球人都知道了，RxJava+MVP/MVVM，可以降低复杂性，把开发的重心聚焦在业务上。
+    ** RxJava+Retrofit,这个地球人都知道了，RxJava+MVP/MVVM，可以降低复杂性，把开发的重心聚焦在业务上。
 
     ** [CymChad/BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper),RecyclerView adapter的一个
        
