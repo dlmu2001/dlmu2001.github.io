@@ -140,8 +140,8 @@ Java的inline优化干掉，而且会大大增加函数个数。
 * [CymChad/BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper),RecyclerView adapter的一个
    封装，可以提高写list的效率，减少很多代码。
 
-* [ButterKnife](http://jakewharton.github.io/butterknife/),不要写很多findViewById了，IDE还支持一键生成代码。点击变量可以还可以很快
-地定位到xml，用得太普遍了。
+* [ButterKnife](http://jakewharton.github.io/butterknife/),不要写很多findViewById了，IDE支持一键生成代码。点击变量还可以很快地定位
+到xml，用得太普遍了。
 
 * [Trinea/android-common](https://github.com/Trinea/android-common),一些库函数的再封装，我习惯于先找找看trinea实现了没有，有实现就
 用他的，没实现自己再增加。
