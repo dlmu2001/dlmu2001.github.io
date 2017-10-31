@@ -125,7 +125,9 @@ Java的inline优化干掉，而且会大大增加函数个数。
   
 ## 10.1 缺陷统计/上报
 
-## 10.2 log控制
+## 10.2 log最佳实践
+&emsp;&emsp;打log接口几乎是我们每个app开始的第一个工作，推荐使用timber来封装log，可以参考[Log最佳实践](http://www.jianshu.com/p/586c27e77e81)
+封装一个适合自己的log接口。
 
 ## 10.3 开源推荐
 
