@@ -139,9 +139,28 @@ vLayout(七巧板)，最近腾讯开源的RapidView。
 了App视觉规范以后，这会让你的App看起来越来越专业，后期页面也会做的越来越快。
 
 # 9.路由
-  路由一开始也是Web前端的概念，但是最近两年，原生里面很多引入了这一概念，路由主要有两个好处，代码解耦，把一个原生的页面也当成一
+  路由一开始也是Web前端的概念，但是最近两年，原生里面很多引入了这一概念，路由主要有两个好处，一是代码解耦，把一个原生的页面也当成一
 
-个url，是一个字串，就不需要去
+个url，是一个字串，就像一个接口，在页面没写好之前就可以约定好接口，并写好跳转，另外一个，方便服务器端或者web端调用，比如说，通过
+
+push要打开一个本地的页面，此时就传这个页面的url，搭配对应的参数（可以放在url的query里面），或者在web端调用原生的页面，都非常方便。
+
+  通常情况下，暴露一个RouteConstant.java文件，服务器或者web端就一目了然。
+        
+        public class RouteConstant{
+              public final static String PAGE_MAIN="mytest://main";
+              public final static String PRODUCT_LIST=“mytest://productlist";
+
+              public final static String KEY_ID="id";
+              public final static String KEY_TITLE="title";
+        }
+        
+  搭配第三方路由框架[chenyu/Router](https://github.com/chenenyu/Router),可以这么调用
+        Route.build("mytest://productlist").with("KEY_ID","12345").go(getActivity());
+
+  push直接发送消息(url,id)就可以直接跳转到对应页面，不需要很多个if/else语句。
+
+  web端直接调用iframe或者console.prompt直接调用"mytest://productlist?id=12345"，统一处理下query参数转成跳转参数就可以。
 
 # 10.其它
   
