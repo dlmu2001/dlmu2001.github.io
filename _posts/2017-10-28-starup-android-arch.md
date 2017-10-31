@@ -117,7 +117,7 @@ Java的inline优化干掉，而且会大大增加函数个数。
 &emsp;&emsp;搭配第三方路由框架[chenyu/Router](https://github.com/chenenyu/Router),可以这么调用
                 Route.build("mytest://productlist").with("KEY_ID","12345").go(getActivity());
 
-&emsp;&emsp;push直接发送消息(url,id)就可以直接跳转到对应页面，不需要很多个if/else语句。
+&emsp;&emsp;push直接发送消息(url,id)就可以直接跳转到对应页面，省去了很多个if/else语句。
 
 &emsp;&emsp;web端直接调用iframe或者console.prompt直接调用"mytest://productlist?id=12345"，统一处理下query参数转成跳转参数就可以。
 
