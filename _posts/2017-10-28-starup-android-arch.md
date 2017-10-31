@@ -49,11 +49,11 @@ facebook/google/instam等第三方登录API。
 # 5.mvp/mvvm
 &emsp;&emsp;mvp/mvvm最近几年被很多Android开发人员等同于Android应用架构了，然而真正领会到的并不多，比如很多所谓的
 mvp分层，就只有v和p，m就是一个bean，根本不是mvp设计的初衷。在mvp/mvvm这个问题上，我的看法是所有的模式，归根到底
-就是解决三个问题，一是解偶，二是团队统一一个代码设计风格，减少沟通成本，三是自动化测试。
+就是解决三个问题，一是解耦，二是团队统一一个代码设计风格，减少沟通成本，三是自动化测试。
   
 &emsp;&emsp;在mvp/mvvm具体怎么写上，google有官方推荐写法[Android Architecture Blueprints](https://github.com/googlesamples/android-architecture),
 可以照猫画虎，写几个就会明白为什么要这么写了。如果团队是多人合作，大家都按照同样的写法来写，代码结构会非常清晰，团
-队成员互相维护别人的代码很容易。
+队成员互相维护别人的代码很容易,review代码的时候，也可以聚焦在真正需要review的地方，提高效率。
 
 # 6.打点
 &emsp;&emsp;打点是很多App的一个必不可少的需求，运营/产品需要根据用户数据来修正方向，需要对用户行为/用户路径进行分析。
@@ -114,7 +114,8 @@ Java的inline优化干掉，而且会大大增加函数个数。
         }
         
 &emsp;&emsp;搭配第三方路由框架[chenyu/Router](https://github.com/chenenyu/Router),可以这么调用
-                Route.build("mytest://productlist").with("KEY_ID","12345").go(getActivity());
+        
+        Route.build("mytest://productlist").with("KEY_ID","12345").go(getActivity());
 
 &emsp;&emsp;push直接发送消息(url,id)就可以直接跳转到对应页面，省去了很多个if/else语句。
 
