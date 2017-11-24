@@ -14,19 +14,16 @@ tomorrow.cyz@gmail.com
 一般情况下，动态语言都比静态语言灵活，而javascript又是动态语言里面比较灵活的。
 这种灵活性让人印象深刻。下面是一些例子
 
-<br/>
 
 * javascript以key-value的方式来定义一个对象(有点像java里面的map，或者oc里面的dictonary)，
 它允许在对象声明后任何时刻新增/删除属性，新增/删除/更新接口，这在静态语言里面是比较难以想象
 的。另外这种key-value的定义方式，在赋值的时候就非常的方便，比如解构赋值。天然适合和Json结合。
 
-<br/>
 
 * javascript可以通过require(表达式)实现类似的运行时require，这个特性对多平台上实现跨平台非常
 有帮助，比如lego的modeA/modeB经常使用到这个特性。java的import或者c++里面的include都无法提供
 这种属性，在需要跨平台的时候，往往需要在工程级别通过python写code generator来实现，比较麻烦。
 
-<br/>
 
 * 弱类型。javascript是弱类型变量，解释器运行时检查数据类型。传统的oop语言如java/c++都采用强
 类型检查，所以所有的变量在使用之前必须做声明，而声明后变量类型就固定下来了，这一点javascript
@@ -37,7 +34,6 @@ javascript在支持多种参数，缺省参数，多种返回值各种方面的�
 就可以暴露错误，而动态语言，则只有在运行时猜暴露错误。接口的约定就更依赖于注释等不可靠、非
 强制性的东西。
 
-<br/>
 
 * javascript可以改变/增加原型的方法。比如说有个框架/平台提供的类Log，这个类Log在全App内广泛使
 用，现在想改变Log.D的行为，如果是java，只能通过集成Log，然后App内全局替换Log为集成类来实现，工
@@ -87,3 +83,4 @@ javascript使用了单线程模型，这一点和大部分原生的系统不一�
 
 * Android里面现在用的很多的rxjava可以通过promise/asnc await/co等实现
 
+* Generator在回复执行的时候还可以通过给next传参数调整函数行为
