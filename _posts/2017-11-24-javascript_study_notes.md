@@ -21,7 +21,7 @@ tomorrow.cyz@gmail.com
 
 
 * javascript可以通过require(表达式)实现类似的运行时require，这个特性对多平台上实现跨平台非常
-有帮助，比如lego的modeA/modeB经常使用到这个特性。java的import或者c++里面的include都无法提供
+有帮助。java的import或者c++里面的include都无法提供
 这种属性，在需要跨平台的时候，往往需要在工程级别通过python写code generator来实现，比较麻烦。
 
 
