@@ -59,5 +59,15 @@ tomorrow.cyz@gmail.com
 
 ## 7.5 压缩
 
+## 7.6 chunk编码
+
+## 7.7 http代理
+
+## 7.8 HTTP 2.0
+
 # 参考
 * 1.[rfc2616](http://www.ietf.org/rfc/rfc2616.txt)
+
+* 2.[rfc6265:HTTP State Management Mechanism](https://tools.ietf.org/search/rfc6265)
+
+* 3.[HTTP2.0](https://datatracker.ietf.org/doc/rfc7540/)
