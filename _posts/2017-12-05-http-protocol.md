@@ -12,7 +12,11 @@ tomorrow.cyz@gmail.com
 
 ![请求响应模型](/assets/media/http_req_res.png)
 
-![post请求](/assets/media/http_post.png)
+    图1 请求响应模型
+
+![post请求](/assets/media/http_post.png)a
+   
+   图2 post请求
 
 * http协议是应用层协议，通常运行在tcp协议之上
 
@@ -28,6 +32,7 @@ tomorrow.cyz@gmail.com
 
 ![一次http请求的tcp流](/assets/media/http_tcp.png)
 
+   图3. 一次http请求的tcp流
 
 # 3. 请求与响应
 
@@ -49,4 +54,5 @@ tomorrow.cyz@gmail.com
 
 ## 7.5 压缩
 
-
+# 参考
+* 1.[rfc2616](http://www.ietf.org/rfc/rfc2616.txt)
