@@ -22,11 +22,31 @@ tomorrow.cyz@gmail.com
 
 * http协议是无连接的
 
+* 明文传输
+
 # 2. http和tcp的关系
 
 ![一次http请求的tcp流](/assets/media/http_tcp.png)
 
 
+# 3. 请求与响应
 
+# 4. 缓存
+
+# 5. cookie
+
+# 6. https
+
+# 7. 其它
+
+## 7.1 永久连接
+
+## 7.2 内容协商
+
+## 7.3 断点续传
+
+## 7.4 重定向
+
+## 7.5 压缩
 
 
