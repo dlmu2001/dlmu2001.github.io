@@ -10,17 +10,25 @@ tomorrow.cyz@gmail.com
 
 # 1. http协议概览
 
+先通过两个协议包认识下http协议
+
 ![请求响应模型](/assets/media/http_req_res.png)
 <div align = "center">
 图1 请求响应模型
 </div>
-
-
 <br>
+图1是一个简单的http get请求，浏览器或者客户端想要获取
+某个资源，就发送一个请求，在请求参数里面包含了资源的位置，
+服务器端收到请求，将对应的响应数据发送给浏览器或者客户端。
+<br>
+
 ![post请求](/assets/media/http_post.png)
 <div align= "center">
 图2 post请求
 </div>
+<br>
+图2是一个http post请求，可以用来提交信息给服务器，服务器收到
+了数据，处理数据（比如持久化），然后将结果返回给客户端。
 
 <br>
 * http协议是应用层协议，通常运行在tcp协议之上
