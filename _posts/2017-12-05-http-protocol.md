@@ -10,11 +10,13 @@ tomorrow.cyz@gmail.com
 
 # 1. http协议概览
 
+<div align = center>
 ![请求响应模型](/assets/media/http_req_res.png)
 
-    图1 请求响应模型
+图1 请求响应模型
+</div>
 
-![post请求](/assets/media/http_post.png)a
+![post请求](/assets/media/http_post.png)
    
    图2 post请求
 
