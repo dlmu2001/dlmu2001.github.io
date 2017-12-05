@@ -33,19 +33,35 @@ tomorrow.cyz@gmail.com
 <br>
 * http协议是应用层协议，通常运行在tcp协议之上
 
+* http协议被广泛应用于传输各种类型的数据
+
 * http协议是一个请求--响应模型
 
 * http协议是无状态的
-
-* http协议是无连接的
+&emsp;&emsp;http协议是无状态的，它没有事务处理能力，一个请求
+响应的过程就完成全部的生命周期。当服务器端希望在两个或多个请
+求之间实现状态的时候，要自己来处理（比如可以使用cookie或者url
+的query携带状态信息).
 
 * 明文传输
+&emsp;&emsp;http协议本身，包括头和体部是通过明文传输的。引入
+https可以对传输的协议数据进行加密。
 
 # 2. http和tcp的关系
 
+http是应用层协议，tcp是传输层协议，http通常运行与tcp协议之上。
+<br>
+
+如图3是http端到端的数据流,可以看到http协议数据放在tcp协议体部传递。
+
+![http数据](http://upload-images.jianshu.io/upload_images/2824193-dbaa6fa64a03922e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700)
+
+<div align="center"> 图3. http端到端数据流</div>
+
+
 ![一次http请求的tcp流](/assets/media/http_tcp.png)
 
-   图3. 一次http请求的tcp流
+   图4. 一次http请求的tcp流
 
 # 3. 请求与响应
 
