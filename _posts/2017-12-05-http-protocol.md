@@ -15,10 +15,14 @@ tomorrow.cyz@gmail.com
 图1 请求响应模型
 </div>
 
-![post请求](/assets/media/http_post.png)
-   
-   图2 post请求
 
+<br>
+![post请求](/assets/media/http_post.png)
+<div align= "center">
+图2 post请求
+</div>
+
+<br>
 * http协议是应用层协议，通常运行在tcp协议之上
 
 * http协议是一个请求--响应模型
