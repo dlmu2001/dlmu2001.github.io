@@ -38,12 +38,14 @@ tomorrow.cyz@gmail.com
 * http协议是一个请求--响应模型
 
 * http协议是无状态的
+
 &emsp;&emsp;http协议是无状态的，它没有事务处理能力，一个请求
 响应的过程就完成全部的生命周期。当服务器端希望在两个或多个请
 求之间实现状态的时候，要自己来处理（比如可以使用cookie或者url
 的query携带状态信息).
 
 * 明文传输
+
 &emsp;&emsp;http协议本身，包括头和体部是通过明文传输的。引入
 https可以对传输的协议数据进行加密。
 
@@ -58,10 +60,15 @@ http是应用层协议，tcp是传输层协议，http通常运行与tcp协议之
 
 <div align="center"> 图3. http端到端数据流</div>
 
+图4是wireshark抓到的一个服务器端http请求的tcp流，可以看到客户端首先进行tcp三次握手（连接），成功以后
+客户端发送http请求数据，服务器端收到Http请求，利用tcp发送响应数据，然后服务器端断开连接。
 
 ![一次http请求的tcp流](/assets/media/http_tcp.png)
 
-   图4. 一次http请求的tcp流
+  <div align="center"> 图4. 一次http请求的tcp流 </div>
+
+在http协议的客户端具体实现里面，一般会调用socket来连接服务器，发送和接受数据，所以存在三个超时可能（
+连接超时，发送超时，接受超时）。
 
 # 3. 请求与响应
 
