@@ -172,6 +172,47 @@ http将状态码分为5类:
        valid request
 
 
+1xx的状态码现在已经用的很少。用的比较多的分别是
+
+    | "200"   OK
+    | "301"   Moved Permanently
+    | "302"   Found
+    | "304"   Not Modified
+    | "307"   Temporary Redirect
+    | "400"   Bad Request
+    | "401"   Unauthorized
+    | "403"   Forbidden
+    | "404"   Not Found
+    | "407"   Proxy Authentication Required
+    | "500"   Internal Server Error
+    | "502"   Bad Gateway
+    | "503"   Service Unavailable
+    | "504"   Gateway Time-out
+
+### 3.2.2 压缩和传输编码
+
+通常指的http压缩是内容编码的一种，通过gzip/compress等方式，将http体部数据压缩后传输，
+可以达到减少数据传输的目的。
+
+http压缩可以通过内容协商的方式进行协商(Accept-Encoding/Content-Encoding)。
+
+纯文本有很高的压缩率。所以一般对html/css/javascipt，会全站设置使用gzip。
+
+php有个开源项目minify，就是把一个页面的css和js合并到一个文件，然后再进行压缩。
+
+相对于内容编码，传输编码是另外一个概念。传输编码不是为了压缩某一个资源，而是为了保证
+资源被“安全传输”。常见的传输编码就是chunked。
+
+早期http1.0是通过服务器端关闭tcp连接来确定http体部结束的，http1.1引入了content-length
+头部，当收到体部数据达到content-length长度的时候，就可以判定体部结束了。但是有些情况下，
+服务器开启传输的时候，不好确定数据的长度，比如某些情况下的流式数据。这个时候就引入了chunk,
+将数据分成一块块，每块包含块信息（块长度，是不是最后一块等），如果最后一块，收到了那块长度
+的数据，体部结束。这些块信息包含在体部里面，而不是头部。
+
+chunk一个很经典的应用，比如一个动态页面，包含头部，边栏，尾部，正文，每个区域可能都要根据数
+据库动态生成，响应时间会比较长，这个时候一种方法是ajax，后端提供多个接口，分别请求，再渲染，
+还有一种方式，可以分成多个chunk来返回,比ajax还省掉了http请求流程。
+
 # 4. 缓存
 
 # 5. cookie
@@ -182,11 +223,7 @@ http将状态码分为5类:
 
 ## 7.1 永久连接
 
-## 7.2 内容协商
-
 ## 7.3 断点续传
-
-## 7.4 重定向
 
 ## 7.5 压缩
 
