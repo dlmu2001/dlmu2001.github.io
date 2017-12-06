@@ -87,9 +87,31 @@ http请求从UA向server发起，包含方法，资源标识，请求头和请�
 <br>
 请求头部和体部之间的分隔是两个CRLF（\r\n)
 
+### 3.1.1 请求方法
+
 请求方法包括GET,POST,HEAD,PUT,DELETE,TRACE,CONNECT,OPTIONS，这些方法都有一定的语法意义，但是
 具体的行为更多地依赖于服务器的实现。现在主流的API是RESTFul风格的，针对CRUD，分别对应post,get,
 put和delete方法。
+
+### 3.1.2 内容协商
+
+同一个资源可能提供多种形式的版本，比如现在的APP，早期的接口都是JSON格式了，后期可能实现了Protocolbuf，
+就会有两种格式的版本，对低版本的APP的请求提供JSON格式，对高版本的提供Protocolbuf格式的。这个就是在客户
+端和服务端协商的结果。
+
+内容协商的原理，通常是UA告诉服务端自己的偏好，服务端根据UA的偏好选择合适的版本给UA。
+
+常见的内容协商相关的请求/响应头部有:
+
+    请求头字段	    说明	                      响应头字段
+    Accept	        告知服务器发送何种媒体类型	Content-Type
+    Accept-Language	告知服务器发送何种语言	    Content-Language
+    Accept-Charset	告知服务器发送何种字符集	Content-Type
+   Accept-Encoding	告知服务器采用何种压缩方式	Content-Encoding
+
+
+另外，User-Agent这个请求头部在移动互联网里被广泛使用，扩展了越来越多的信息，比如屏幕尺寸，分辨率，厂家信
+息，os版本等，服务器端会根据User-Agent产生不同的响应，这也可以看做内容协商的另一种形式。
 
 # 4. 缓存
 
