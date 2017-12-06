@@ -90,8 +90,9 @@ http请求从UA向server发起，包含方法，资源标识，请求头和请�
 ### 3.1.1 请求方法
 
 请求方法包括GET,POST,HEAD,PUT,DELETE,TRACE,CONNECT,OPTIONS，这些方法都有一定的语法意义，但是
-具体的行为更多地依赖于服务器的实现。现在主流的API是RESTFul风格的，针对CRUD，分别对应post,get,
-put和delete方法。
+具体的行为更多地依赖于服务器的实现。
+
+现在主流的API是RESTFul风格的，针对CRUD，分别对应post,get,put和delete方法。
 
 ### 3.1.2 内容协商
 
@@ -131,9 +132,44 @@ put和delete方法。
 
 这个时候在响应头部引入了一个Vary头部。
 假设我们是通过Accept头部进行JSON和PB的协商的，那么后端可以加
-Vary:Accept
+
+    Vary:Accept
 
 用来告诉缓存服务器，根据不同的Accept头部，缓存和筛选相应的响应版本。
+
+## 3.2 响应
+
+http的响应由状态行，响应头部和响应体部组成
+
+    Response      = Status-Line               
+                       *(( general-header        
+                        | response-header        
+                        | entity-header ) CRLF)  
+                       CRLF
+                       [ message-body ]          
+
+
+响应行由版本，状态码和描述组成。
+    
+    Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
+
+### 3.2.1 状态码 
+
+http将状态码分为5类:
+
+    - 1xx: Informational - Request received, continuing process
+
+      - 2xx: Success - The action was successfully received,
+        understood, and accepted
+
+      - 3xx: Redirection - Further action must be taken in order to
+        complete the request
+
+      - 4xx: Client Error - The request contains bad syntax or cannot
+        be fulfilled
+
+      - 5xx: Server Error - The server failed to fulfill an apparently
+        valid request
 
 
 # 4. 缓存
