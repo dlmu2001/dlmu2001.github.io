@@ -157,19 +157,19 @@ http的响应由状态行，响应头部和响应体部组成
 
 http将状态码分为5类:
 
-    - 1xx: Informational - Request received, continuing process
+     - 1xx: Informational - Request received, continuing process
 
-      - 2xx: Success - The action was successfully received,
-        understood, and accepted
+     - 2xx: Success - The action was successfully received,
+       understood, and accepted
 
-      - 3xx: Redirection - Further action must be taken in order to
-        complete the request
+     - 3xx: Redirection - Further action must be taken in order to
+       complete the request
 
-      - 4xx: Client Error - The request contains bad syntax or cannot
-        be fulfilled
+     - 4xx: Client Error - The request contains bad syntax or cannot
+       be fulfilled
 
-      - 5xx: Server Error - The server failed to fulfill an apparently
-        valid request
+     - 5xx: Server Error - The server failed to fulfill an apparently
+       valid request
 
 
 # 4. 缓存
