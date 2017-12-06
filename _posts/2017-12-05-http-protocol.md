@@ -83,7 +83,7 @@ UA发送http请求数据，服务器端收到Http请求，利用tcp发送响应�
 http请求从UA向server发起，包含方法，资源标识，请求头和请求体部，请求体部是可选的。
 
 ![http请求](/assets/media/http_req.png)
-    <div align="center">图5. http请求</div>
+  <div align="center">图5. http请求</div>
 <br>
 请求头部和体部之间的分隔是两个CRLF（\r\n)
 
