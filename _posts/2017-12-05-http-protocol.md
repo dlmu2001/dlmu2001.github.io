@@ -17,7 +17,7 @@ tomorrow.cyz@gmail.com
 图1 请求响应模型
 </div>
 <br>
-图1是一个简单的http get请求，浏览器或者客户端想要获取
+图1是一个简单的http get请求，UA(浏览器或者客户端)想要获取
 某个资源，就发送一个请求，在请求参数里面包含了资源的位置，
 服务器端收到请求，将对应的响应数据发送给浏览器或者客户端。
 <br>
@@ -28,7 +28,7 @@ tomorrow.cyz@gmail.com
 </div>
 <br>
 图2是一个http post请求，可以用来提交信息给服务器，服务器收到
-了数据，处理数据（比如持久化），然后将结果返回给客户端。
+了数据，处理数据（比如持久化），然后将结果返回给UA。
 
 <br>
 * http协议是应用层协议，通常运行在tcp协议之上
@@ -43,6 +43,8 @@ tomorrow.cyz@gmail.com
 响应的过程就完成全部的生命周期。当服务器端希望在两个或多个请
 求之间实现状态的时候，要自己来处理（比如可以使用cookie或者url
 的query携带状态信息).
+
+在移动应用里面，http协议是前端和后端的桥梁。
 
 * 明文传输
 
@@ -60,17 +62,34 @@ http是应用层协议，tcp是传输层协议，http通常运行与tcp协议之
 
 <div align="center"> 图3. http端到端数据流</div>
 
-图4是wireshark抓到的一个服务器端http请求的tcp流，可以看到客户端首先进行tcp三次握手（连接），成功以后
-客户端发送http请求数据，服务器端收到Http请求，利用tcp发送响应数据，然后服务器端断开连接。
+图4是wireshark抓到的一个服务器端http请求的tcp流，可以看到UA首先进行tcp三次握手（连接），成功以后
+UA发送http请求数据，服务器端收到Http请求，利用tcp发送响应数据，然后UA断开tcp连接。
 
 ![一次http请求的tcp流](/assets/media/http_tcp.png)
 
   <div align="center"> 图4. 一次http请求的tcp流 </div>
 
 在http协议的客户端具体实现里面，一般会调用socket来连接服务器，发送和接受数据，所以存在三个超时可能（
-连接超时，发送超时，接受超时）。
+连接超时，发送超时，接收超时）。
+
+通常一次http请求的时间会包含tcp三次握手的时间，为了优化掉这个时间，HTTP1.1引入了永久连接的概念(keep-alive)。
+
+这也是很多应用网络优化里面经常提到的“HTTP常连接”，其实HTTP本身是没有连接的，这个说法不严谨。
 
 # 3. 请求与响应
+
+## 3.1 请求
+
+http请求从UA向server发起，包含方法，资源标识，请求头和请求体部，请求体部是可选的。
+
+![http请求](/assets/media/http_req.png)
+    <div align="center">图5. http请求</div>
+<br>
+请求头部和体部之间的分隔是两个CRLF（\r\n)
+
+请求方法包括GET,POST,HEAD,PUT,DELETE,TRACE,CONNECT,OPTIONS，这些方法都有一定的语法意义，但是
+具体的行为更多地依赖于服务器的实现。现在主流的API是RESTFul风格的，针对CRUD，分别对应post,get,
+put和delete方法。
 
 # 4. 缓存
 
