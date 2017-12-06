@@ -82,7 +82,7 @@ UA发送http请求数据，服务器端收到Http请求，利用tcp发送响应�
 
 http请求从UA向server发起，包含方法，资源标识，请求头和请求体部，请求体部是可选的。
 
-![http请求](/assets/media/http_req.png)
+![http请求](/assets/media/http_request.png)
   <div align="center">图5. http请求</div>
 <br>
 请求头部和体部之间的分隔是两个CRLF（\r\n)
@@ -107,11 +107,34 @@ put和delete方法。
     Accept	        告知服务器发送何种媒体类型	Content-Type
     Accept-Language	告知服务器发送何种语言	    Content-Language
     Accept-Charset	告知服务器发送何种字符集	Content-Type
-   Accept-Encoding	告知服务器采用何种压缩方式	Content-Encoding
+    Accept-Encoding	告知服务器采用何种压缩方式	Content-Encoding
+
+如下是内容协商的一个请求头的例子
+
+    Accept:*/*
+    Accept-Encoding:gzip,deflate,sdch
+    Accept-Language:zh-CN,en-US;q=0.8,en;q=0.6
+
+对应的响应头部
+
+    Content-Type: text/javascript
+    Content-Encoding: gzip
+    Content-Language: en-US
 
 
 另外，User-Agent这个请求头部在移动互联网里被广泛使用，扩展了越来越多的信息，比如屏幕尺寸，分辨率，厂家信
 息，os版本等，服务器端会根据User-Agent产生不同的响应，这也可以看做内容协商的另一种形式。
+
+考虑下这个情况，如果服务端提供了JSON和ProtocolBuf两个版本给APP，低版本的用JSON，高版本用PB,通常为了提高
+服务端的负载，会在后端集群前面加代理，比如vanish，这个时候vanish要收到一个请求，怎么来确定缓存的策略呢？
+通用的http代理服务器也有同样的问题。
+
+这个时候在响应头部引入了一个Vary头部。
+假设我们是通过Accept头部进行JSON和PB的协商的，那么后端可以加
+Vary:Accept
+
+用来告诉缓存服务器，根据不同的Accept头部，缓存和筛选相应的响应版本。
+
 
 # 4. 缓存
 
