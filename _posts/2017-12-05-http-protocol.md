@@ -53,6 +53,9 @@ tomorrow.cyz@gmail.com
 &emsp;&emsp;http协议本身，包括头和体部是通过明文传输的。引入
 https可以对传输的协议数据进行加密。
 
+&emsp;&emsp;http2.0引入了二进制分帧层，分帧层使用二进制编码，而
+不是明文。
+
 # 2. http和tcp的关系
 
 http是应用层协议，tcp是传输层协议，http通常运行与tcp协议之上。
@@ -155,7 +158,7 @@ http请求从UA向server发起，包含方法，资源标识，请求头和请�
 ## 3.2 响应
 
 http的响应由状态行，响应头部和响应体部组成
-
+Multiplexing
     Response      = Status-Line               
                        *(( general-header        
                         | response-header        
@@ -470,3 +473,4 @@ https对性能的损耗主要包括两个，一个是握手的成本，一个是
 * 3.[HTTP2.0](https://datatracker.ietf.org/doc/rfc7540/)
 
 * 4.[数字证书原理,公钥私钥加密原理](http://blog.csdn.net/ly131420/article/details/38400583)
+
