@@ -391,6 +391,13 @@ no-cache。
     Set-Cookie: v_pg=s_51
     Set-Cookie: __bsi=10449838630856047604_00_39_N_N_225_0303_c02f_Y; max-age=3600; domain=www.hao123.com; path=/
 
+在app的hybrid开发里面，经常需要在native和web之间传递同步cookie，保证服务端的回话。
+
+因为cookie里面经常携带敏感信息，所以非常容易造成隐私的泄露。
+
+[RFC6265](https://tools.ietf.org/search/rfc6265)里面，cookie是有域和path的概念的，限制了cookie的访问权限。但是在实际
+网络环境中，仍然有手段来突破或者绕过这种限制，导致隐私泄露。
+
 # 6. https
 
 因为http是明文传输的，所以http非常容易被劫持、监听、篡改和攻击。最常见的例子就是运营商
@@ -446,11 +453,8 @@ https对性能的损耗主要包括两个，一个是握手的成本，一个是
 
 后来为了减少TLS握手的成本，引入了TLS心跳，通过发送心跳的请求和应答，对TLS Session进行保活,重用session。
 
-# 7. 其它
+# 7. HTTP 2.0 
 
-## 7.1 http代理
-
-## 7.2 HTTP 2.0
 
 # 参考
 * 1.[rfc2616](http://www.ietf.org/rfc/rfc2616.txt)
