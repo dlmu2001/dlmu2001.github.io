@@ -316,7 +316,7 @@ no-cache。
     Content-Length: 9135
     Content-Type: text/html; charset=utf-8
 
-    <html...................
+    <html
 
     GET /2008/site/images/logo-w3c-mobile-lg HTTP/1.1
     Host: www.w3.org
