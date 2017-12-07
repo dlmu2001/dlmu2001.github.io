@@ -239,6 +239,8 @@ http协议通过请求的range头部，if-range头部和响应的content-range�
 
 如果资源在Last-Modified之后又改动，则返回200,从头开始接收。
 
+另外，响应有个Accept-Range头部，服务端可以用来向UA告知自己的分部请求能力。
+
 # 4. 缓存
 
 缓存在web或者app的网络优化中都占据比较重要的位置，其实目标很简单，UA在从服务端获取一次资源
@@ -248,19 +250,95 @@ http协议通过请求的range头部，if-range头部和响应的content-range�
 为了实现这个目标，http请求头部和响应头部引入了一些特殊的头部。缓存的规则非常复杂，http协议专门
 有一章(section14.9 Cache-Control)介绍。这里只介绍常用的。
 
-## 4.1 明确缓存 
+## 4.1 ETAG和Last-Modified
 
-服务端明确指定了expires或者Cache-Control的max-age，通常这个响应会有etag或者last-modified头部，
+为了帮助判断资源是否是最新的，引入了ETAG和Last-Modified这两个概念。ETAG是entity tag，可以认为它
+是资源的指纹信息，如果资源发生改变，etag必然发生变化。Last-Modified就是资源的修改时间，非常好理
+解。
+
+所以如果etag或者last-modified发生变化，可以认为资源过期了。
+
+通常情况下，如果服务端支持缓存，会在响应头部中包含etag或者last-modified头部（或者两者都有）。
+
+而UA在确定缓存过期，或者不能确定缓存是否过期的情况下，可以使用if-none-match:{etag}或者
+if-modified-since:{last-modified}来发起条件请求
+
+## 4.2 明确缓存 
+
+服务端明确指定了expires或者Cache-Control的max-age（max-age优先级高于expires)，通常这个响应会有
+etag或者last-modified头部。
 
 * UA要求强制刷新（比较少），忽略缓存。
 
 * 根据expires或max-age判断没有过期，直接从缓存给出响应，不需要网络交互
 
-* 缓存过期，发起条件请求（带if-modified-since或者if-match头部）
-UA再发起请求，只要不是强制刷新，如果没有过期，就会从缓存直接给出响应，不需要有网络
-交互。如果过期，就会用if-modified-since/if-match发起条件请求，服务器比对etag和last-modified，
-发现没有改动，就返回304。
+* 缓存过期，发起条件请求（带if-modified-since或者if-none-match头部）向服务器验证，这个时候服务
+器通过比对etag或者last-modified，如果没有过期，就返回304 not-modified,UA还是从本地缓存取响应；
+服务端如果判定缓存过期，就返回一个200 OK的响应，UA更新本地缓存。
 
+* 服务端经常通过设置expires=-1或者max-age=0来强制缓存进行服务器验证。
+
+## 4.3 非明确缓存
+
+对于没有明确指定expires或者Cache-Control的max-age的响应，UA无法判断缓存是否过期，这个时候就发起
+条件请求，走验证流程。可以认为类似明确缓存里面的缓存过期。
+
+对于Cache-Control里面包含must-revalidate指令的响应，也认为是非明确缓存，必须走验证流程。
+
+## 4.4 不缓存
+
+服务端可以明确指示UA不要缓存响应（比如一些实时变化的资源），常见的做法是设置Cache-Control的
+no-cache。
+
+## 4.5 实例
+
+    GET / HTTP/1.1
+    Host: www.w3.org
+    Connection: keep-alive
+    User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1
+    Upgrade-Insecure-Requests: 1
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+    Accept-Encoding: gzip, deflate, br
+    Accept-Language: zh-CN,zh;q=0.9
+    If-None-Match: "8f77-55f362f2e7600;89-3f26bd17a2f00-gzip"
+    If-Modified-Since: Thu, 30 Nov 2017 17:00:08 GMT
+
+    HTTP/1.1 200 OK
+    Date: Thu, 07 Dec 2017 02:00:09 GMT
+    Content-Location: Home.html
+    Vary: negotiate,accept,Accept-Encoding
+    Last-Modified: Wed, 06 Dec 2017 11:00:11 GMT
+    ETag: "8a9e-55fa9daf2a4c0;89-3f26bd17a2f00-gzip"
+    Accept-Ranges: bytes
+    Content-Encoding: gzip
+    Cache-Control: max-age=600
+    Expires: Thu, 07 Dec 2017 02:10:09 GMT
+    Content-Length: 9135
+    Content-Type: text/html; charset=utf-8
+
+    <html...................
+
+    GET /2008/site/images/logo-w3c-mobile-lg HTTP/1.1
+    Host: www.w3.org
+    Connection: keep-alive
+    User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1
+    Accept: image/webp,image/apng,image/*,*/*;q=0.8
+    Referer: https://www.w3.org/
+    Accept-Encoding: gzip, deflate, br
+    Accept-Language: zh-CN,zh;q=0.9
+    If-None-Match: "11a9-485114b0e28c0;53607e2410c9f"
+    If-Modified-Since: Sun, 25 Apr 2010 15:27:07 GMT
+    
+    HTTP/1.1 304 Not Modified
+    Date: Wed, 06 Dec 2017 13:39:59 GMT
+    Content-Location: logo-w3c-mobile-lg.png
+    Vary: negotiate,accept,upgrade-insecure-requests
+    Last-Modified: Sun, 25 Apr 2010 15:27:07 GMT
+    ETag: "11a9-485114b0e28c0;53607e2410c9f"
+    Cache-Control: max-age=2592000
+    Expires: Fri, 05 Jan 2018 13:39:59 GMT
+    Content-Type: image/png; qs=0.7
+    
 # 5. cookie
 
 # 6. https
