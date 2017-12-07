@@ -74,7 +74,9 @@ UA发送http请求数据，服务器端收到Http请求，利用tcp发送响应�
 
 通常一次http请求的时间会包含tcp三次握手的时间，为了优化掉这个时间，HTTP1.1引入了永久连接的概念(keep-alive)。
 
-这也是很多应用网络优化里面经常提到的“HTTP常连接”，其实HTTP本身是没有连接的，这个说法不严谨。
+在使用域名而不是ip的情况，还需要一次dns解析（getHostByName)。
+
+和tcp连接相关的一系列优化手段包括http长连接，域名合并，httpdns。
 
 # 3. 请求与响应
 
@@ -82,8 +84,13 @@ UA发送http请求数据，服务器端收到Http请求，利用tcp发送响应�
 
 http请求从UA向server发起，包含方法，资源标识，请求头和请求体部，请求体部是可选的。
 
-![http请求](/assets/media/http_request.png)
-  <div align="center">图5. http请求</div>
+    Request       = Request-Line                  
+                        *(( general-header        
+                         | request-header         
+                         | entity-header ) CRLF)  
+                        CRLF
+                        [ message-body ]          
+
 <br>
 请求头部和体部之间的分隔是两个CRLF（\r\n)
 
@@ -233,6 +240,26 @@ http协议通过请求的range头部，if-range头部和响应的content-range�
 如果资源在Last-Modified之后又改动，则返回200,从头开始接收。
 
 # 4. 缓存
+
+缓存在web或者app的网络优化中都占据比较重要的位置，其实目标很简单，UA在从服务端获取一次资源
+之后，希望如果服务端不改动，UA都可以从本地获取，如果服务端有改动，UA就从服务端获取。有的APP
+还有一个目标，在network不可用的情况下，使用缓存数据。
+
+为了实现这个目标，http请求头部和响应头部引入了一些特殊的头部。缓存的规则非常复杂，http协议专门
+有一章(section14.9 Cache-Control)介绍。这里只介绍常用的。
+
+## 4.1 明确缓存 
+
+服务端明确指定了expires或者Cache-Control的max-age，通常这个响应会有etag或者last-modified头部，
+
+* UA要求强制刷新（比较少），忽略缓存。
+
+* 根据expires或max-age判断没有过期，直接从缓存给出响应，不需要网络交互
+
+* 缓存过期，发起条件请求（带if-modified-since或者if-match头部）
+UA再发起请求，只要不是强制刷新，如果没有过期，就会从缓存直接给出响应，不需要有网络
+交互。如果过期，就会用if-modified-since/if-match发起条件请求，服务器比对etag和last-modified，
+发现没有改动，就返回304。
 
 # 5. cookie
 
