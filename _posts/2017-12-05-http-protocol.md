@@ -346,6 +346,51 @@ no-cache。
     
 # 5. cookie
 
+前面我们提到过,http协议是无状态的。但是很多时候，后端需要在不同请求之间维护回话
+信息，又需要有状态的信息。常见的场景，比如登录页登录以后，访问其它页面，需要将登录信息
+携带过去。这时候一种解决的办法是通过url的query传递登录信息（登陆凭证），但是这种方法需
+要将信息在每个页面之间传来传去。另外一种方法就是通过set-cookie存到客户端，则客户端后面
+在向服务器发送请求的时候，将回话信息携带给服务端。
+
+所以cookie的实际内容可以看做服务端寄存在客户端的信息，实际内容对客户端透明。
+
+下面是访问http://www.hao123.com的过程，被服务器重定向到https://www.hao123.com,302响应
+同时使用set-cookie向客户端寄存信息，客户端在下一个请求https://www.hao123.com中，将寄
+存信息带给服务端。
+
+    GET / HTTP/1.1
+    Host: www.hao123.com
+    Connection: keep-alive
+    User-Agent: Mozilla/5.0 (iPad; CPU OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+
+    HTTP/1.1 302 Found
+    Connection: keep-alive
+    Content-Type: text/html;charset=UTF-8
+    Date: Thu, 07 Dec 2017 07:07:42 GMT
+    Location: https://www.hao123.com/
+    Set-Cookie: hz=0; path=/; domain=www.hao123.com
+    Set-Cookie: BAIDUID=BDB93253A03B5F8826EAB44C1C8F4E2C:FG=1; expires=Fri, 07-Dec-18 07:07:42 GMT; max-age=31536000; path=/; domain=.hao123.com; version=1
+    Content-Length: 0
+
+    GET / HTTP/1.1
+    Host: www.hao123.com
+    Connection: keep-alive
+    User-Agent: Mozilla/5.0 (iPad; CPU OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1
+    Upgrade-Insecure-Requests: 1
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+    Accept-Encoding: gzip, deflate, br
+    Accept-Language: zh-CN,zh;q=0.9
+    Cookie: hz=0; BAIDUID=BDB93253A03B5F8826EAB44C1C8F4E2C:FG=1
+
+    HTTP/1.1 200 OK
+    Connection: keep-alive
+    Content-Type: text/html;charset=UTF-8
+    Date: Thu, 07 Dec 2017 07:07:43 GMT
+    Set-Cookie: ft=1; expires=Thu, 07-Dec-2017 15:59:59 GMT
+    Set-Cookie: v_pg=s_51
+    Set-Cookie: __bsi=10449838630856047604_00_39_N_N_225_0303_c02f_Y; max-age=3600; domain=www.hao123.com; path=/
+
 # 6. https
 
 因为http是明文传输的，所以http非常容易被劫持、监听、篡改和攻击。最常见的例子就是运营商
@@ -355,7 +400,7 @@ no-cache。
 
 尽管如此，还是非常脆弱。这个时候，理所当然地想到对http通讯进行加密。
 
-## 6.1 对称加密和非对称加密
+# 6.1 对称加密和非对称加密
 
 所谓对称加密就是加密和解密使用同一个秘钥,一般用于1对1通讯。
 
