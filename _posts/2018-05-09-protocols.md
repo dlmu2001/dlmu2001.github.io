@@ -142,6 +142,20 @@ internet分片和重组程序需要能够将一个数据报分割成任意数量
 
 >>![](/assets/media/network_ip_spec.jpg) 
 
+控制位（Control Bits）：6 bits（从左到右）：
+
+URG：紧急指针字段有效（Urgent Pointer field significant）
+
+ACK：确认头部字段有效（Acknowledgment field significant）
+
+PSH：强制函数（Push Function）
+
+RST：重置连接（Reset the connection）
+
+SYN：同步系列号码（Synchronize sequence numbers）
+
+FIN：再没有来自发送者的数据（No more data from sender）
+
 # 4. TCP
 
 TCP是一个`基于连接`的，host to host的`可靠`协议。TCP利用了IP协议的能力，提供了以下基本功能：
@@ -214,6 +228,11 @@ TCP为接收者提供一个办法让其控制发送者发送的数据的数量�
 窗口指示了发送者在接收到进一步的允许前可以传输的字节的数量。
 
 >>![](/assets/media/network_tcp_flowcontrol.jpg) 
+
+## 4.5 多路(Multiplexing)
+为了允许在一个单独的主机里多个进程同时使用TCP通信机制，TCP提供了一套地址和端口。从internet通信层同网络和宿主地址连接，这形成了一个socket。
+
+一对socket标识了一个连接。
 
 # 5. UDP
 
