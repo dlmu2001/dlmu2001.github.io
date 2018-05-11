@@ -172,16 +172,18 @@ internet分片和重组程序需要能够将一个数据报分割成任意数量
 
     分片也携带一个确认号码(ack)，该确认号码是在相反方向的下一个期望的传输八位字节数据的系列号码。
 
+    确认机制是累积的，所以序号X的确认指示的是所有X之前但不包括X的数据已经收到了。
 
->>![](/assets/media/network_tcp_ack2.jpg) 
+
+>>![](/assets/media/network_tcp_ack2.png) 
 
     丢包的情况
 
->>![](/assets/media/network_tcp_ack.jpg) 
+>>![](/assets/media/network_tcp_ack.png) 
 
     当TCP传输一个包含数据的分片的时候，他将该数据分片的拷贝放在重传队列中，然后开始一个定时器，当数据的确认收到的时候，该分片拷贝从队列中删除，如果在定时到达之前没有收到确认，分片被重传。
 
->>![](/assets/media/network_tcp_timeout.jpg) 
+>>![](/assets/media/network_tcp_timeout.png) 
 ## 4.3 连接建立和清除
 
 ## 4.4 拥塞窗口 
@@ -189,6 +191,8 @@ internet分片和重组程序需要能够将一个数据报分割成任意数量
 ## 4.5 慢启动
 
 ## 4.6 快重传
+
+## 4.7 延迟确认与Nagle算法
 
 # 5. UDP
 
