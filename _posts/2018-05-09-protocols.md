@@ -227,7 +227,7 @@ TCP为接收者提供一个办法让其控制发送者发送的数据的数量�
 
 窗口指示了发送者在接收到进一步的允许前可以传输的字节的数量。
 
->>![](/assets/media/network_tcp_flowcontrol.jpg) 
+>>![](/assets/media/network_tcp_flowcontrol.jpeg) 
 
 ## 4.5 多路(Multiplexing)
 为了允许在一个单独的主机里多个进程同时使用TCP通信机制，TCP提供了一套地址和端口。从internet通信层同网络和宿主地址连接，这形成了一个socket。
@@ -240,5 +240,3 @@ TCP为接收者提供一个办法让其控制发送者发送的数据的数量�
 ## [RFC791](https://tools.ietf.org/html/rfc791)
 ## [RFC793](https://tools.ietf.org/html/rfc793)
 
-    通常我们将从Nic
-    申请的IP地址称为公网地址，这个公网地址资源有限。通常一个公司只有一个会几个公网IP地址。
