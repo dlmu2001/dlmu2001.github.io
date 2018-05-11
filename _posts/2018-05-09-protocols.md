@@ -48,16 +48,16 @@ ESS是Extended service sets的简称，它是指通过骨干网将几个BSS连�
 ## 1.3 协议主要功能
 
 协议的主要功能是传输和管理。具体可以分成9种服务。
-* 传输
-* 整合
-* 连接
-* 重新连接
-* 解除连接
-* 身份认证
-* 解除认证
-* 机密性
+* 传输(Distribution)
+* 整合(Integration)
+* 连接(Association)
+* 重新连接(Reassociation)
+* 解除连接(Disassociation)
+* 身份认证(Authentication)
+* 解除认证(Deauthentication)
+* 机密性(Confidentiality)
 * MSDU传递
-* 动态频率选择
+* 动态频率选择(DFS)
 
 # 3. IP协议
 
