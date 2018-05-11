@@ -186,6 +186,17 @@ TCP通过确认机制和重传机制来保证可靠性。
 >>![](/assets/media/network_tcp_timeout.png) 
 ## 4.3 连接建立和清除
 
+source ip/source port/dest ip/dest port 唯一标识一个TCP连接。
+
+建立连接的过程利用了SYN标志，包含了三条消息的交换。这个交换被称为三步握手。
+
+
+>>![](/assets/media/network_tcp_handshake.png) 
+
+清除连接的工程利用了FIN标志，需要四步
+
+>>![](/assets/media/network_tcp_close.png) 
+
 ## 4.4 滑动窗口
 
 TCP通过滑动窗口实现了流控特性。
