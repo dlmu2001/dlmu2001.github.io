@@ -47,7 +47,7 @@ ESS是Extended service sets的简称，它是指通过骨干网将几个BSS连�
 
 ## 1.3 协议主要功能
 
-协议的主要功能是传输和管理。具体可以分成9种服务。
+协议的主要功能是传输和管理。具体可以分成以下服务。
 * 传输(Distribution)
 * 整合(Integration)
 * 连接(Association)
@@ -56,7 +56,8 @@ ESS是Extended service sets的简称，它是指通过骨干网将几个BSS连�
 * 身份认证(Authentication)
 * 解除认证(Deauthentication)
 * 机密性(Confidentiality)
-* MSDU传递
+* MSDU(Mac Service Data Unit)传递
+* 传输功率控制(TPC:Transmit Power Control)
 * 动态频率选择(DFS)
 
 # 3. IP协议
