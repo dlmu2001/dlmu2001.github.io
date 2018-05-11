@@ -8,6 +8,42 @@ description: team内部培训，面向智能硬件或者物联网的同学
 
 tomorrow.cyz@gmail.com 
 
+# wlan
+
+## 基本概念
+### 无线频谱
+无线设备被限定在某个特定频段(frequency band)上操作。每个频段都有相应的频宽 (bandwidth)，亦即该频段可供使用的频率空间总和。频宽是评价链路(link)数据传输能力 的基准。种种数学、信息以及信号处理理论均可证明，较大的频宽可以传输更多的信息。
+
+无线频谱(radio spectrum)的使用受到主管当局严格控管。
+
+### STA 和AP
+STA是Station的简写，指的是有能力使用802.11协议的设备，比如手机、电脑等。
+
+AP是access point的简称，是用来帮助Wi-Fi设备接入有线的网络硬件。
+
+### BSS
+BSS是basic service set的简称，是802.11网络的基本原件(building block)，由一组彼此通信的工作站构成。BSS有两种形式
+
+>>![](/assets/media/network_wlan_bss.jpg) 
+
+Independant BSS简称IBSS，它一般是少数几个工作站针对特定目的而组成的临时网络，有时也叫ad hoc network。它是一种去中心化的网络。
+
+Infrasture BSS，任何设备之间的通信，都需要通过AP。
+
+### BSSID
+BSSID是每个BSS的唯一标识(48位），BSSID一般在出厂时预置，不可配置。
+
+### ESS
+ESS是Extended service sets的简称，它是指通过骨干网将几个BSS连接在一起。
+
+>>![](/assets/media/network_wlan_ess.jpg) 
+
+### SSID
+所有位于同一个ESS的AP将会使用同一个服务组合识别码，这个识别码就是SSID(Set Identifier)。
+
+>>![](/assets/media/network_80211.jpeg) 
+
+
 # 3. IP协议
 
 IP协议提供从发起者(source)到目的地(destination)的数据传输。
@@ -237,6 +273,7 @@ TCP为接收者提供一个办法让其控制发送者发送的数据的数量�
 # 5. UDP
 
 # 参考文档
+## 802.11无线网络权威指南
 ## [RFC791](https://tools.ietf.org/html/rfc791)
 ## [RFC793](https://tools.ietf.org/html/rfc793)
 
