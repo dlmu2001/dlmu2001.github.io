@@ -55,18 +55,43 @@ ESS是Extended service sets的简称，它是指通过骨干网将几个BSS连�
 ### SSID
 所有位于同一个ESS的AP将会使用同一个服务组合识别码，这个识别码就是SSID(Set Identifier)。
 
->>![](/assets/media/network_wlan_arch.jpeg) 
 
 ## 2 wlan的类型
 
-### 2.1 infrasture
+### 2.1 infrastructure
 
-infrastructure是大部分WiFi网络的部署方式，在infrastructure方式中，所有的STA必须通过AP才能通信。
+infrastructure是大部分WiFi网络的部署方式，在infrastructure方式中，所有的STA必须通过AP才能通信。这是一种典型的星型拓扑。
 
-### 2.2 Peer-to-Peer
+>>![](/assets/media/network_wlan_arch.jpeg) 
+
+### 2.2 Peer-to-Peer（ad hoc)
+
+在这种方式下，无线设备可以直接通信，不需要通过AP。这种能够在不便利用现有网络措施的情况下，提供终端之间的相互通信。
+
+在ad hoc中，每个设备都具有路由和转发功能。
+
+这是一种自治的，去中心化的网络。任何节点的故障都不会影响网络的运行。
+
+
+>>![](/assets/media/network_adhoc.png) 
+
+因为要求任何节点的故障不影响网络的运行，多节点ad hoc对网络管理的要求较高。比如说ad hoc中，dhcp就比较难以实施。
+
+ad hoc目前主要应用于军事通信，移动会议，紧急服务和灾难恢复和无线传感器网络。
+
+ad hoc并没有固定的拓扑结构。
 
 ### 2.3 wlan mesh
 
+顾名思义，wlan mesh是一种wlan的网状实现。在Infrastructure wlan中，每个STA均通过AP来访问网络，而AP又必须与有线网络相连接，这样就极大地制约了wlan的覆盖范围。
+
+wlan mesh去掉了节点之间的布线需求。
+
+>>![](/assets/media/network_wlan_mesh.jpg)
+
+wlan mesh中，一个节点可以连接至少两个其它的节点，
+
+常见应用，大型场所的wifi覆盖,如google wifi 和Eero无线路由器。
 ## 3 802.11协议
 ### 2.1 802.11协议在osi模型中的位置
 
