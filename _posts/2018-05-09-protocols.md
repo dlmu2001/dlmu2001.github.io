@@ -8,9 +8,25 @@ description: team内部培训，面向智能硬件或者物联网的同学
 
 tomorrow.cyz@gmail.com 
 
-# 1. wlan
+# 1. OSI模型
 
-## 1.1 基本概念
+>>![](/assets/media/network_osi_model.png) 
+
+# 2. wlan
+
+## 2.1 基本概念
+
+* wlan 
+  
+wlan是wireless local area networt的简称，是在有限区域内通过无线通信将两台或者多台设备连接在一起的无线计算机网络。
+
+关键特性 1）局域网 2）无线（可以移动)
+
+* WiFi
+大部分wlan都是基于IEEE 802.11实现，这种基于802.11的无线局域网技术称为WiFi。
+
+
+
 ### 无线频谱
 无线设备被限定在某个特定频段(frequency band)上操作。每个频段都有相应的频宽 (bandwidth)，亦即该频段可供使用的频率空间总和。频宽是评价链路(link)数据传输能力 的基准。种种数学、信息以及信号处理理论均可证明，较大的频宽可以传输更多的信息。
 
@@ -300,3 +316,4 @@ TCP为接收者提供一个办法让其控制发送者发送的数据的数量�
 ## [RFC791](https://tools.ietf.org/html/rfc791)
 ## [RFC793](https://tools.ietf.org/html/rfc793)
 
+关键特性 1）局域网 2）无线（可以移动)
