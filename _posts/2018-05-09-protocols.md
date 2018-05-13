@@ -31,7 +31,7 @@ Independant BSS简称IBSS，它一般是少数几个工作站针对特定目的�
 Infrasture BSS，任何设备之间的通信，都需要通过AP。
 
 ### BSSID
-BSSID是每个BSS的唯一标识(48位），BSSID一般在出厂时预置，不可配置。
+BSSID是每个BSS的唯一标识(48位），BSSID一般是Mac地址，不可配置。
 
 ### ESS
 ESS是Extended service sets的简称，它是指通过骨干网将几个BSS连接在一起。
@@ -41,11 +41,15 @@ ESS是Extended service sets的简称，它是指通过骨干网将几个BSS连�
 ### SSID
 所有位于同一个ESS的AP将会使用同一个服务组合识别码，这个识别码就是SSID(Set Identifier)。
 
-## 1.2 802.11协议族
+## 1.2 协议在osi模型中的位置
+
+>>![](/assets/media/network_wlan_osi.jpg) 
+
+## 1.3 协议族
 
 >>![](/assets/media/network_80211.jpeg) 
 
-## 1.3 协议主要功能
+## 1.4 协议主要功能
 
 协议的主要功能是传输和管理。具体可以分成以下服务。
 * 传输(Distribution)
@@ -59,6 +63,9 @@ ESS是Extended service sets的简称，它是指通过骨干网将几个BSS连�
 * MSDU(Mac Service Data Unit)传递
 * 传输功率控制(TPC:Transmit Power Control)
 * 动态频率选择(DFS)
+
+## 1.5 MAC
+### CSMA/CA 
 
 # 3. IP协议
 
