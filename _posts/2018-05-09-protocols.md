@@ -30,6 +30,8 @@ wlan是wireless local area networt的简称，是在有限区域内通过无线�
 
 无线频谱(radio spectrum)的使用受到主管当局严格控管。
 
+WiFi目前主要工作在2.4GHZ和5GHZ
+
 ### STA 和AP
 STA是Station的简写，指的是有能力使用802.11协议的设备，比如手机、电脑等。
 
@@ -104,7 +106,27 @@ wlan mesh中，一个节点可以连接至少两个其它的节点，
 
 ### 2.3.3 安全
 * WEP
-* WPA2
+OpenSystem 
+
+>>![](/assets/media/network_opensystem.png)
+
+SharedKey
+
+>>![](/assets/media/network_wep2.png)
+
+* WPA/WPA2
+
+>>![](/assets/media/network_wpa.png)
+
+AP/STA在4-wayshake前各自都知道密码（也就是用户连接某SSID输入的密码）
+1)AP(Authenticator)在1/4的时候把自己的随机数(ANonce)传给STA，STA在收到ANonce后，已经可以生成PTK
+
+2)2/4的时候把自己的随机数(SNonce)传给AP，同时加了MIC(对应于PTK中的KCK，也就是秘钥确认秘钥)。AP收到SNonce以后，就可以生成PTK了，将收到的MIC和自己生成的MIC比较进行完整性校验，如果校验失败，握手失败。校验成功，AP生成PTK和GTK(GroupTransient Key，用来加密组播和广播)
+
+3)3/4中将GTK和MIC一起发给STA，因为此时双方都已经知道PTK，所以会对   
+    GTK进行KEK加密。
+4)STA发送ACK进行确认
+
 
 # 3. IP协议
 
