@@ -46,30 +46,53 @@ USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 root        15   0.0  0.1  26516  6380 ?        Ss   Dec25   0:58 /usr/bin/test
 ```
 各列的意义如下
-USER    用户名 &emsp;
-PID     进程ID &emsp;
-%CPU    进程占用的CPU百分比 &emsp;
-%MEM    进程占用的内存百分比 &emsp;
-VSZ     进程使用的虚拟内存量(KB) &emsp;
-RSS     进程实际占用的内存大小(KB) &emsp;
-TTY     进程在哪个终端运行，若与终端无关，显示? &emsp;
-STAT    进程的状态 &emsp;
-TIME    进程实际使用CPU运行的时间 &emsp;
-COMMAND 进程运行命令的名称和参数 &emsp;
+
+USER    用户名 
+
+PID     进程ID
+
+%CPU    进程占用的CPU百分比
+
+%MEM    进程占用的内存百分比
+
+VSZ     进程使用的虚拟内存量(KB)
+
+RSS     进程实际占用的内存大小(KB)
+
+TTY     进程在哪个终端运行，若与终端无关，显示?
+
+STAT    进程的状态
+
+TIME    进程实际使用CPU运行的时间
+
+COMMAND 进程运行命令的名称和参数
 
 其中STAT常见的状态字符有
+
 D      无法中断的休眠状态（通常 IO 的进程）； 
+
 R      正在运行可中在队列中可过行的； 
+
 S      处于休眠状态； 
+
 T      停止或被追踪； 
+
 W      进入内存交换 （从内核2.6开始无效）； 
+
 X      死掉的进程 （基本很少见）； 
+
 Z      僵尸进程； 
+
 <      优先级高的进程 
+
 N      优先级较低的进程 
+
 L      有些页被锁进内存； 
+
 s      进程的领导者（在它之下有子进程）； 
+
 l      多线程，克隆线程（使用 CLONE_THREAD, 类似 NPTL pthreads）； 
+
 +      位于后台的进程组；
 
 `ps -elf` 以标准格式显示进程信息
@@ -79,21 +102,36 @@ F S UID        PID  PPID  C PRI  NI ADDR SZ WCHAN  STIME TTY          TIME CMD
 4 S system    2690     1  0  80   0 - 105135 SyS_ep Dec25 ?       00:00:00 /usr/bin/mpd
 ```
 各列的意义如下
-&emsp;&emsp; F       Flags (octal and additive) associated with the process
-&emsp;&emsp; S       进程状态,注意这个S和ps aux中的STAT不一样
-&emsp;&emsp; UID     进程的用户ID
-&emsp;&emsp; PID     进程ID
-&emsp;&emsp; PPID    进程的父进程ID
-&emsp;&emsp; C       Process Utilization(进程占用CPU的百分比)
-&emsp;&emsp; PRI     进程优先级，值越高优先级越低
-&emsp;&emsp; NI      Nice值
-&emsp;&emsp; ADDR    进程的地址
-&emsp;&emsp; SZ      The size in blocks of the core image of the process（进程image以blocks为单位的大小)
-&emsp;&emsp; WCHAN   The event for which the process is waiting or sleeping(进程等待的事件)
-&emsp;&emsp; STIME   进程开始事件
-&emsp;&emsp; TTY     进程在哪个终端运行，若与终端无关，显示? 
-&emsp;&emsp; TIME    进程累积执行时间
-&emsp;&emsp; CMD     进程运行命令的名称和参数 
+
+F       Flags (octal and additive) associated with the process
+
+S       进程状态,注意这个S和ps aux中的STAT不一样
+
+UID     进程的用户ID
+
+PID     进程ID
+
+PPID    进程的父进程ID
+
+C       Process Utilization(进程占用CPU的百分比)
+
+PRI     进程优先级，值越高优先级越低
+
+NI      Nice值
+
+ADDR    进程的地址
+
+SZ      The size in blocks of the core image of the process（进程image以blocks为单位的大小)
+
+WCHAN   The event for which the process is waiting or sleeping(进程等待的事件)
+
+STIME   进程开始事件
+
+TTY     进程在哪个终端运行，若与终端无关，显示? 
+
+TIME    进程累积执行时间
+
+CMD     进程运行命令的名称和参数 
 
 在busybox上，ps命令的参数可以在target上执行`ps --help all`查看。在桌面linux发行版上，则可以尝试man ps。
 
