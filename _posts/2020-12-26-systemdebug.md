@@ -36,6 +36,8 @@ ps是Process Status的缩写，用来显示系统中执行命令瞬间进程的�
 
 在系统debug中，`ps aux`和`ps -elf`是比较常用的两个命令，通常还会结合grep做filter。
 
+此外，`ps -Lf` 命令可以用于查看一个进程的线程
+
 `ps aux`以BSD的格式显示进程信息
 
 ```
@@ -77,21 +79,21 @@ F S UID        PID  PPID  C PRI  NI ADDR SZ WCHAN  STIME TTY          TIME CMD
 4 S system    2690     1  0  80   0 - 105135 SyS_ep Dec25 ?       00:00:00 /usr/bin/mpd
 ```
 各列的意义如下
-F       Flags (octal and additive) associated with the process
-S       进程状态,注意这个S和ps aux中的STAT不一样
-UID     进程的用户ID
-PID     进程ID
-PPID    进程的父进程ID
-C       Process Utilization(进程占用CPU的百分比)
-PRI     进程优先级，值越高优先级越低
-NI      Nice值
-ADDR    进程的地址
-SZ      The size in blocks of the core image of the process（进程image以blocks为单位的大小)
-WCHAN   The event for which the process is waiting or sleeping(进程等待的事件)
-STIME   进程开始事件
-TTY     进程在哪个终端运行，若与终端无关，显示? &emsp;
-TIME    进程累积执行时间
-CMD     进程运行命令的名称和参数 &emsp;
+&emsp;&emsp; F       Flags (octal and additive) associated with the process
+&emsp;&emsp; S       进程状态,注意这个S和ps aux中的STAT不一样
+&emsp;&emsp; UID     进程的用户ID
+&emsp;&emsp; PID     进程ID
+&emsp;&emsp; PPID    进程的父进程ID
+&emsp;&emsp; C       Process Utilization(进程占用CPU的百分比)
+&emsp;&emsp; PRI     进程优先级，值越高优先级越低
+&emsp;&emsp; NI      Nice值
+&emsp;&emsp; ADDR    进程的地址
+&emsp;&emsp; SZ      The size in blocks of the core image of the process（进程image以blocks为单位的大小)
+&emsp;&emsp; WCHAN   The event for which the process is waiting or sleeping(进程等待的事件)
+&emsp;&emsp; STIME   进程开始事件
+&emsp;&emsp; TTY     进程在哪个终端运行，若与终端无关，显示? 
+&emsp;&emsp; TIME    进程累积执行时间
+&emsp;&emsp; CMD     进程运行命令的名称和参数 
 
 在busybox上，ps命令的参数可以在target上执行`ps --help all`查看。在桌面linux发行版上，则可以尝试man ps。
 
@@ -174,10 +176,9 @@ Miscellaneous options:
         --help <simple|list|output|threads|misc|all>
                       display help and exit
 ```
+# pstree
 
 
-
-常用的参数搭配是ps aux 和 ps -elf
 # top
 # addr2line
 # strings
