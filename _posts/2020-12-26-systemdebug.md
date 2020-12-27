@@ -38,7 +38,7 @@ ps是Process Status的缩写，用来显示系统中执行命令瞬间进程的�
 
 此外，`ps -Lf` 命令可以用于查看一个进程的线程
 
-`ps aux`以BSD的格式显示进程信息
+## `ps aux`以BSD的格式显示进程信息
 
 ```
 # ps aux |grep test
@@ -93,9 +93,9 @@ s      进程的领导者（在它之下有子进程）；
 
 l      多线程，克隆线程（使用 CLONE_THREAD, 类似 NPTL pthreads）； 
 
-+      位于后台的进程组；
+\+      位于后台的进程组；
 
-`ps -elf` 以标准格式显示进程信息
+## `ps -elf` 以标准格式显示进程信息
 ```
 # ps -elf |grep mpd
 F S UID        PID  PPID  C PRI  NI ADDR SZ WCHAN  STIME TTY          TIME CMD
@@ -133,6 +133,22 @@ TIME    进程累积执行时间
 
 CMD     进程运行命令的名称和参数 
 
+## `ps -Lf $PID`可以用来查看本进程的所有线程信息
+```
+# ps -LF 2176
+UID        PID  PPID   LWP  C NLWP    SZ   RSS PSR STIME TTY      STAT   TIME CMD
+media     2176     1  2176  0   10 37069  4896   3 Dec25 ?        Ssl    0:00 /usr/bin/mdpd -f
+media     2176     1  2251  0   10 37069  4896   1 Dec25 ?        Ssl    0:00 /usr/bin/mdpd -f
+media     2176     1  2252  0   10 37069  4896   1 Dec25 ?        Ssl    0:00 /usr/bin/mdpd -f
+media     2176     1  2253  0   10 37069  4896   4 Dec25 ?        Ssl    2:41 /usr/bin/mdpd -f
+media     2176     1  2254  0   10 37069  4896   3 Dec25 ?        Ssl    9:02 /usr/bin/mdpd -f
+media     2176     1  2255  0   10 37069  4896   1 Dec25 ?        Ssl    0:00 /usr/bin/mdpd -f
+media     2176     1  2256  0   10 37069  4896   1 Dec25 ?        Ssl    0:00 /usr/bin/mdpd -f
+media     2176     1  2257  0   10 37069  4896   4 Dec25 ?        Ssl    0:00 /usr/bin/mdpd -f
+media     2176     1  2258  0   10 37069  4896   4 Dec25 ?        Ssl    0:00 /usr/bin/mdpd -f
+media     2176     1  2259  0   10 37069  4896   2 Dec25 ?        Ssl    4:34 /usr/bin/mdpd -f
+```
+## 参数定义
 在busybox上，ps命令的参数可以在target上执行`ps --help all`查看。在桌面linux发行版上，则可以尝试man ps。
 
 如下是busybox v1.20.2的输出:
