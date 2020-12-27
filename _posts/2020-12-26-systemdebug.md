@@ -12,7 +12,6 @@ tomorrow.cyz@gmail.com
 开发一款终端设备，比如手机、IOT、嵌入式设备等，都会涉及到大量的系统调试工作。
 
 很多情况下，出现的问题不仅仅是一个应用或者一个系统模块的问题，而是应用与系统，应用与应用，系统中不同的模块之间，系统中用户态和内核态
-
 之间的协作，设备驱动与内核的问题，这类问题需要从整个系统层面进行分析，所以称之为系统调试。
 
 对于深度依赖系统能力的App，比如音视频应用，浏览器应用，超级App等，在解决App在不同系统、不同机型上出现的问题的时候，系统调试也非常重要。
@@ -22,13 +21,11 @@ tomorrow.cyz@gmail.com
 这个系统调试的十八般武器系列，是地瓜在日常系统调试的时候用到的一些手段。
 
 除了一些RTOS，目前主流的系统是Linux系统。这些系统上一般都会embed一些linux命令，常见的比如集成busybox。用好这些常用linux命令，
-
 我们可以获取很多程序、内核运行相关的信息。这些命令在设备上可以运行，所以我们称之为target上的命令。
 
 除了target上的命令，有些host上的命令，比如交叉编译环境里面gcc目录下的工具(如addr2line），也可以给我们很大帮助。
 
 对于不同的linux发行版， linux命令的格式不一定一样，本文所有的target上的命令，都以busybox的实现为基准。host上的命令，除非特别说明，
-
 以交叉工具链(arm-linux-gcc)的命令为准。
 
 # ps
@@ -148,6 +145,8 @@ media     2176     1  2257  0   10 37069  4896   4 Dec25 ?        Ssl    0:00 /u
 media     2176     1  2258  0   10 37069  4896   4 Dec25 ?        Ssl    0:00 /usr/bin/mdpd -f
 media     2176     1  2259  0   10 37069  4896   2 Dec25 ?        Ssl    4:34 /usr/bin/mdpd -f
 ```
+如上，LWP就是线程ID
+
 ## 参数定义
 在busybox上，ps命令的参数可以在target上执行`ps --help all`查看。在桌面linux发行版上，则可以尝试man ps。
 
@@ -231,9 +230,44 @@ Miscellaneous options:
                       display help and exit
 ```
 # pstree
+pstree 显示进程树。
 
+在linux中，并没有真正的线程，用进程来模拟线程，也就是所谓的轻量级进程(LWP)。因此pstree可以用来分析一个进程内部的线程情况。
+
+可以使用`pstree -p $pid`来看指定pid的进程树。进程树信息里面包含线程ID和线程名，可以帮助在分析log的时候将线程id对应到代码中具体的线程上。
 
 # top
+top命令可以实时显示系统中各个进程的实时资源占用情况，包括CPU，memory等，经常用于分析性能相关问题。
+
+busybox的top显示和linux 桌面版本的top显示有些细微的区别，桌面版本可以自行google。
+
+```
+Mem: 37824K used, 88564K free, 0K shrd, 0K buff, 23468K cached
+CPU:   0% usr   0% sys   0% nic  60% idle   0% io  38% irq   0% sirq
+Load average: 0.00 0.09 0.26 1/50 1081
+  PID  PPID USER     STAT   VSZ %MEM CPU %CPU COMMAND
+ 1010     1 root     S     2464   2%   0   8% -/sbin/getty -L ttyS0 115200 vt10
+ 1081  1079 root     R     2572   2%   0   1% top
+    5     2 root     RW<      0   0%   0   1% [events/0]
+ 1074   994 root     S     7176   6%   0   0% sshd: root@ttyp0
+ 1019     1 root     S    13760  11%   0   0% /SecuriWAN/mi
+  886     1 root     S     138m 112%   0   0% /usr/bin/rstpd 51234  <== 112% MEM?!?
+ 1011   994 root     S     7176   6%   0   0% sshd: root@ttyp2
+  994     1 root     S     4616   4%   0   0% /usr/sbin/sshd
+ 1067  1030 root     S     4572   4%   0   0% ssh passive
+  932     1 root     S     4056   3%   0   0% /sbin/ntpd -g -c /etc/ntp.conf
+ 1021     1 root     S     4032   3%   0   0% /SecuriWAN/HwClockSetter
+  944     1 root     S     2680   2%   0   0% dbus-daemon --config-file=/etc/db
+ 1030  1011 root     S     2572   2%   0   0% -sh
+ 1079  1074 root     S     2572   2%   0   0% -sh
+    1     0 root     S     2460   2%   0   0% init
+  850     1 root     S     2460   2%   0   0% syslogd -m 0 -s 2000 -b 2 -O /var
+  860     1 root     S     2460   2%   0   0% klogd -c 6
+  963     1 root     S     2184   2%   0   0% /usr/bin/vsftpd /etc/vsftpd.conf
+    3     2 root     SW<      0   0%   0   0% [ksoftirqd/0]
+  823     2 root     SWN      0   0%   0   0% [jffs2_gcd_mtd6]
+```
+
 # addr2line
 # strings
 # 参考
