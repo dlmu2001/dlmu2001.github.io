@@ -268,6 +268,93 @@ Load average: 0.00 0.09 0.26 1/50 1081
   823     2 root     SWN      0   0%   0   0% [jffs2_gcd_mtd6]
 ```
 
+## summary区域
+
+`Mem: 37824K used, 88564K free, 0K shrd, 0K buff, 23468K cached` 这一行显示了memory的总体使用情况,这个信息是通过读取/proc/meminfo获取的。
+
+used(37824K)是当前已用的内存
+
+free(88564K)是当前可用的内存
+
+shrd(0k)是tmpfs使用的内存数量，一般用于shmem
+
+buff(0k)是直接访问块设备时的缓冲区的总大小。
+
+cached(23468K): 从disk读文件的时候用的内存缓存。
+
+具体的的信息含义可以参考[Analyzing Linux memory utilization](https://www.lynxbee.com/understanding-proc-meminfo-analyzing-linux-memory-utilization/)
+
+如果需要进一步分析内存情况，可以使用free命令或者cat /proc/meminfo
+
+
+`CPU:   0% usr   0% sys   0% nic  60% idle   0% io  38% irq   0% sirq` 这一行则显示了CPU的负载情况，多核CPU要查看每个核的负载情况，可以按1，再按1回到总的CPU负载情况。
+
+usr 指的是用户进程空间未改变过优先级的进程占用CPU百分比
+
+sys 指内核空间占用CPU百分比
+
+nic 指用户进程空间改变过优先级的进程占用CPU百分比
+
+idle 指空闲时间百分比
+
+io 也就是iowait，指的是空闲&等待I/O的时间百分比
+
+irq 指的是硬中断占用的CPU时间百分比
+
+sirq 指的是软中断占用的CPU时间百分比
+
+
+`Load average: 0.00 0.09 0.26 1/50 1081` 这一行显示了整体系统负载，整体负载是CPU负载,Disk负载，网络负载和其它外设负载的综合反馈。
+
+前面三个数分别对应过去1分钟，5分钟，15分钟的负载。在linux中，Load是处于可执行态（TASK_RUNNING)和不可中断睡眠态(TASK_UNINTERRUPTIBLE)的进程数。
+
+第三个值(1/50)分别表示当前运行进程（1，包括LWP)和总的进程(50,同样包括LWP)。
+
+第四个值显示的是最后一个线程ID。
+
+
+## task区域
+task区域显示了每个进程的负载情况
+```
+  PID  PPID USER     STAT   VSZ %MEM CPU %CPU COMMAND
+  1010     1 root     S     2464   2%   0   8% -/sbin/getty -L ttyS0 115200 vt10
+  886     1 root     S     138m 112%   0   0% /usr/bin/rstpd 51234  <== 112% MEM?!?
+```
+
+其中:
+
+PID是进程ID
+
+PPID是父进程ID
+
+USER是进程的用户
+
+STAT是进程的状态
+
+VSZ是映射到进程地址空间中的内存量，这个虚拟内存有可能大于实际物理内存（部分被swap out)。
+
+%MEM 是这个进程使用的物理内存的页数乘以100除以物理内存的总页数。初略地看，就是值越高，进程耗费的内存越高。
+
+CPU 多核中，这个进程最后运行所在的核
+
+%CPU 进程使用的CPU的占比，视实现情况，多核有的是指某一单核的占比，有的是所有核CPU的占比。
+
+COMMAND 进程运行的指令
+
+## 分析经验
+
+通常第一步可以观察Load和CPU负载，如果Load高且CPU负载高，说明Load高很可能是CPU负载高引起的，反之则可能是其它负载（I/O等）。
+
+如果CPU负载高，可以进一步分析CPU的几个核心指标，以及各个核的情况。
+
+* 如果是usr高，说明cpu确实消耗在进程里，可以检查进程是否有死循环或者CPU密集计算，频繁发生FullGC等
+
+* 如果sys高，说明CPU消耗在系统内核，可以检查驱动，排查是否存在I/O,内存等系统资源瓶颈。
+
+* 如果sirq高，可以排查下网络I/O瓶颈。
+
+
+
 # addr2line
 # strings
 # 参考
