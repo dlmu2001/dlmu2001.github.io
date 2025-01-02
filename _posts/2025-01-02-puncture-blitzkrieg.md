@@ -1,9 +1,9 @@
 ---
 layout: post
-title: 应用端gpu性能优化 
-categories: [操作系统]
-tags: [performance]
-description: 息
+title: 一次闪电穿刺 
+categories: [研发故事]
+tags: [研发故事 穿刺 拆解 团队]
+description: 记录下团队一次成功的闪电穿刺
 ---
 
     和合作公司一点打单，我提了几个方案。项目紧迫，需迅速评估以确定最终方案，因方案选择直接
@@ -16,25 +16,25 @@ description: 息
 投入更多资源来缩短时间。无时间压力时，一人2-3天可完成穿刺程序设计。但遇问题，交叉排查或致耗
 时超一周。
 
-     我倾向的方案旨在通过Nested Wayland Server对接双方的合成器，这个方案能最大程度复用我方系
+    我倾向的方案旨在通过Nested Wayland Server对接双方的合成器，这个方案能最大程度复用我方系
 统架构，既节约时间，又高效利用现有框架。同时，它降低了双方的耦合关系，显著减少了沟通成本。
 
-      虽然Nested Wayland Server概念成熟且有实现，但去年刚被蛇咬了一把，一些平台的差异性差
+    虽然Nested Wayland Server概念成熟且有实现，但去年刚被蛇咬了一把，一些平台的差异性差
 点把我逼上绝路，我不能再让团队陷入那种困境，而且，到时也没有时间让我们爬坑。
 
-      最终，我将穿刺设计成这么一个目标：通过两个最简单的画三角形的客户端连接Nested Wayland
+    最终，我将穿刺设计成这么一个目标：通过两个最简单的画三角形的客户端连接Nested Wayland
 Server(即NestedComposer,下同),NestedComposer将这两个client端commit的buffer合成，送到系统合成
 器上屏显示，或者不合成直接送给系统合成器上屏。主要穿刺点包括:Nested WaylandServer场景下的
 EGL环境的正常使用，Nested Wayland Server读取并合成EGLImage的内容，Nested WaylandComposer
 Server拿到EGLImage并直接commit给系统合成器。
  .
-      第二天一大早到公司，召集了团队的三个兄弟，把背景、目标和穿刺方案和大家同步了下，确认
+    第二天一大早到公司，召集了团队的三个兄弟，把背景、目标和穿刺方案和大家同步了下，确认
 大家理解了以后，接下来就是着手进行工作的拆解了。经过讨论，我们拆解成了三个部分，1)纯Nested
 Wayland Server的实现涵盖gbm buffer backend interface、wl_surface interface以及系统合成器的事件处理),
 2)取出wl_buffer中的EGLImage进行合成或者EGLImage转buffer，3)一个基础框架来构建EGL环境、处理client端来
 的buffer update并调用2的接口进行合成并上屏。
 
-      拆解保证在互相可以独立进行，依赖现有环境或者自己搭建环境就可以开始工作，而不需要对其他人有依赖，
+    拆解保证在互相可以独立进行，依赖现有环境或者自己搭建环境就可以开始工作，而不需要对其他人有依赖，
 同时也要保证大家之间继承的effort要尽量小，所以每个子模块，首选设计成可定义的输入输出型接口，做不到，则
 要明确编程模型，模型尽量简单。最终，我们将第二项定义成了输入输出型接口(除了EGL环境外，其它基本上可以认为
 拥有幂等特性)，将任务三定义成了最简单的编程模型接入(三个接口)，最后大家基于任务一来集成。
